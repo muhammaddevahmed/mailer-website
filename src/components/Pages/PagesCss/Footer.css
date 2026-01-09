@@ -1,0 +1,259 @@
+:root {
+  --primary-color: #16423C;
+  --accent-color: #6A9C89;
+  --text-light: rgba(255,255,255,0.8);
+  --hover-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+} 
+
+.footer {
+  background: linear-gradient(135deg, #16423C 40%, #6A9C89 60%);
+  color: white;
+  padding: 4rem 0 2rem;
+  margin-top: auto;
+  border-top-right-radius: 80px;
+  border-top-left-radius: 80px;
+}
+.footer-column {
+  display: flex;
+  flex-direction: column;
+}
+.footer-container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1.5fr repeat(2, 1fr);
+  gap: 4rem;
+  padding-bottom: 3rem;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.brand-section {
+  max-width: 360px;
+}
+
+.brand-logo {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.logo-image {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+}
+
+.brand-name {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+  color: white;
+}
+
+.brand-description {
+  color: var(--text-light);
+  line-height: 1.6;
+  margin-bottom: 2rem;
+}
+
+.app-badges {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.store-image {
+  height: 40px;
+  transition: var(--hover-transition);
+}
+
+.store-image:hover {
+  transform: translateY(-2px);
+}
+
+.social-links {
+  display: flex;
+  gap: 1rem;
+  text-decoration: none;
+}
+
+.social-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  transition: var(--hover-transition);
+  text-decoration: none;
+}
+
+.social-icon:hover {
+  background: var(--accent-color);
+  transform: translateY(-2px);
+}
+
+.nav-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  color: white;
+  text-align: center;
+}
+
+.nav-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  list-style: none;
+  text-align: center;
+}
+
+.nav-link {
+  color: var(--text-light);
+  transition: var(--hover-transition);
+  position: relative;
+  text-decoration: none;
+}
+
+.nav-link:hover {
+  color: #ffc53c;
+  padding-left: 8px;
+  text-decoration: none;
+}
+
+.nav-link:hover::before {
+  content: "▹";
+  position: absolute;
+  left: 0;
+  color: #ffc53c;
+  margin-right: 10px;
+}
+
+.copyright-section {
+  padding-top: 2rem;
+  text-align: center;
+}
+
+.copyright-text {
+  color: var(--text-light);
+  font-size: 0.9rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.legal-links {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-top: 0.5rem;
+}
+
+.legal-link {
+  color: var(--text-light);
+  font-size: 0.85rem;
+  transition: var(--hover-transition);
+}
+
+.legal-link:hover {
+  color: var(--accent-color);
+}
+
+.footer-nav {
+  margin-left: auto;
+}
+
+.nav-group {
+  display: flex;
+  gap: 4rem;
+}
+
+.company-column {
+  margin-right: 3rem;
+}
+
+.legal-column {
+  margin-left: 3rem;
+}
+
+@media (max-width: 1024px) {
+  .footer-grid {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .footer-column {
+    align-items: center;
+  }
+  
+  .brand-section {
+    max-width: 100%;
+    text-align: center;
+  }
+  
+  .brand-logo {
+    justify-content: center;
+  }
+  
+  .app-badges {
+    justify-content: center;
+  }
+  
+  .social-links {
+    justify-content: center;
+    text-decoration: none;
+  }
+  
+  .footer-nav {
+    margin-left: auto;
+  }
+
+  .nav-group {
+    display: flex;
+    gap: 2rem;
+  }
+
+  .legal-column {
+    margin-left: 3rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .footer-container {
+    padding: 0 1.5rem;
+  }
+  
+  .footer-nav {
+    grid-template-columns: 1fr;
+  }
+  
+  .copyright-text {
+    flex-direction: column;
+  }
+  
+  .legal-links {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .nav-group {
+    flex-direction: row;
+    gap: 2rem;
+  }
+  
+  .company-column {
+    margin-right: 0;
+  }
+  
+  .legal-column {
+    margin-left: 0;
+  }
+
+}

@@ -1,0 +1,49 @@
+.input-group-container {
+    margin-bottom: 2rem;
+  }
+  
+  .domain-input {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid #16423C;
+    border-radius: 15px;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+  }
+
+  .error-text {
+    color: #AD0000;
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
+  }
+  
+  .domain-list {
+    border-top: 1px solid #eee;
+    margin-top: 1rem;
+  }
+  
+  .domain-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 0;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .domain-text {
+    flex: 1;
+    font-size: 1rem;
+    color: #333;
+  }
+  
+  .delete-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #AD0000;
+    padding: 0.5rem;
+  }
+  
+  .delete-button:hover {
+    opacity: 0.8;
+  }

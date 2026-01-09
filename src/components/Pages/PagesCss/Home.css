@@ -1,0 +1,270 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: 'Arial', sans-serif;
+    background-color: #E9EFEC;
+    color: #333;
+  }
+  
+  .home-container {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  .email-section {
+    background: linear-gradient(135deg, #16423C, #6A9C89);
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  margin-bottom: 30px;
+  text-align: center;
+  color: white;
+  }
+  
+  .email-section h1 {
+    font-size: 2.5rem;
+  margin-bottom: 15px;
+  font-weight: bold;
+  }
+  
+  .email-box {
+    display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 15px;
+  border-radius: 15px;
+  border: 2px solid white;
+  margin: 20px auto;
+  width: fit-content;
+}
+
+.email-address {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: white;
+}
+
+  .gif-bg {
+    background-color: white;
+  border: none;
+  padding: 5px;
+  border-radius: 50%;
+  cursor: pointer;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  transition: transform 0.3s ease;
+  }
+  
+  .gif-bg:hover {
+    transform: scale(1.1);
+  }
+  
+  .copy-button {
+    background: white;
+    color: #16423C;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.3s ease, transform 0.3s ease;
+  }
+  
+  .copy-button:hover {
+    background: #E9EFEC;
+    transform: translateY(-2px);
+  }
+
+  .description {
+    max-width: 600px;
+    margin: 20px auto;
+    font-size: 1rem;
+    color: white;
+  }
+  
+  .button-row {
+    display: flex;
+    gap: 15px;
+    margin-top: 20px;
+    justify-content: center;
+  }
+  
+  .button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    background: white;
+    color: #16423C;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.3s ease;
+  }
+  
+  .button:hover {
+    background: #E9EFEC;
+    transform: translateY(-2px);
+  }
+  
+  .inbox-section {
+    background: linear-gradient(135deg, #16423C, #6A9C89);
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  margin-top: 20px;
+  color: white;
+  }
+
+  .inbox-header{
+    display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  margin-top: 10px;
+  transition: background 0.3s ease;
+  border-bottom: 2px solid white;
+  border-top: 2px solid white;
+  }
+
+  .inbox-header i {
+    margin-right: 5px; 
+  }
+  
+  .inbox-header h2 {
+    font-size: 1.8rem;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: white;
+  }
+
+  .inbox-header1 {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-top: 10px;
+  }
+  
+  .inbox-header h2 i {
+    margin-right: 10px; 
+  }
+  
+  .inbox-content {
+    background: white;
+  padding: 20px;
+  border-radius: 10px;
+  margin-top: 10px;
+  }
+  
+  .inbox-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    margin-top: 10px;
+    transition: background 0.3s ease;
+  }
+  
+  .inbox-item:hover {
+    background: rgba(255, 255, 255, 0.2);
+  }
+  
+  .inbox-item span {
+    flex: 1;
+    font-size: 1rem;
+    color: #16423C;
+  }
+  
+  .view-button {
+    background: #16423C;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.3s ease;
+  }
+  
+  .view-button:hover {
+    background: #6A9C89;
+    transform: translateY(-2px);
+  }
+  
+  .empty-inbox-container {
+    text-align: center;
+    padding: 20px;
+  }
+  
+  .empty-inbox-gif {
+    width: 100px;
+    margin-bottom: 10px;
+  }
+  
+  .empty-inbox {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #16423C;
+  }
+  
+  .empty-inbox2 {
+    font-size: 1.2rem;
+    color: #6A9C89;
+  }
+
+  .blog-end h2{
+    text-align: center;
+  width: 100%;
+  }
+  
+  .explore-container {
+    display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
+  }
+  
+  .explore-btn {
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    background: linear-gradient(135deg, #16423C, #6A9C89);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .explore-btn:hover {
+    background: linear-gradient(135deg, #6A9C89, #16423C);
+  }
+  
+  
+  @media (max-width: 768px) {
+    .home-container {
+      padding: 10px;
+    }
+  
+    .email-section {
+      padding: 20px;
+    }
+  }

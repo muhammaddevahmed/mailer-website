@@ -1,0 +1,49 @@
+.policy {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+
+
+  
+  .policy h2 {
+    margin: 10px;
+    text-align: center;
+  }
+  
+  .policy p {
+    margin-bottom: 15px;
+  }
+  .policy li {
+    padding: 0 0 0 20px;
+    list-style-type: disc;
+    margin: 10px;
+  }
+  .policy ul {
+    padding: 0 0 0 20px;
+    list-style-type: disc;
+    margin: 10px;
+  }
+  
+  
+  
+  
+  @media screen and (max-width: 600px) {
+    .policy {
+      font-size: 14px;
+      padding: 10px;
+    }
+    
+      .policy h2 {
+        font-size: 20px;
+      }
+    
+      .policy p {
+        margin-bottom: 10px;
+      }
+    
+      .policy ul {
+        padding: 0 0 0 15px;
+      }
+  }
+  

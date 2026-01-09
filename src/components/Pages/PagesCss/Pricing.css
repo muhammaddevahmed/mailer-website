@@ -1,0 +1,175 @@
+.card-element i{
+    color: rgb(119, 198, 0);
+    font-size: large;
+  }
+  
+  .price-plans{
+    text-align: center;
+  padding: 40px 20px;
+  background: linear-gradient(135deg, #16423C, #6A9C89);
+  color: white;
+  border-radius: 15px;
+  margin: 20px auto;
+  max-width: 1200px;
+  }
+
+  .price-plans h1{
+    font-size: 2.5rem;
+  margin-bottom: 10px;
+  font-weight: bold;
+  }
+
+  .price-plans p {
+    font-size: 1.2rem;
+    color: #f0f0f0;
+  }
+
+  .price-switch{
+    display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px 0;
+  }
+
+  .price-text {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #16423C;
+    margin: 0 15px;
+  }
+
+  .switch-container{
+    width: 80px;
+  height: 40px;
+  background: #f0f0f0;
+  border-radius: 30px;
+  position: relative;
+  cursor: pointer;
+  border: 2px solid #16423C;
+  }
+
+  .switch-container--box {
+    width: 36px;
+    height: 36px;
+    background: #6A9C89;
+    border-radius: 50%;
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    transition: transform 0.3s ease;
+  }
+  
+  .switch-container--box--move {
+    transform: translateX(40px);
+  }
+
+  .main {
+    display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 20px;
+  }
+  
+  .card-basic,
+  .card-premium,
+  .card-standard {
+    background: white;
+  border-radius: 15px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  width: 300px;
+  padding: 20px;
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .card-basic:hover,
+  .card-premium:hover,
+  .card-standard:hover {
+    transform: translateY(-10px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+  }
+  
+  .card-header {
+    padding: 20px;
+  border-radius: 15px 15px 0 0;
+  color: white;
+  clip-path: polygon(0 0, 100% 0, 100% 85%, 0% 100%);
+  }
+  
+  .header-basic {
+    background: linear-gradient(135deg, #16423C, #6A9C89);
+  }
+  
+  .header-standard {
+    background: linear-gradient(135deg, #16423C, #6A9C89);
+  }
+  
+  .header-premium {
+    background: linear-gradient(135deg, #16423C, #6A9C89);
+  }
+  
+  .card-body {
+    padding: 20px;
+  }
+
+  .card-body h2 {
+    font-size: 2rem;
+  color: #16423C;
+  margin-bottom: 10px;
+  }
+
+  .card-body p {
+    font-size: 1rem;
+    color: #333;
+  }
+  
+  
+  .card-element-container {
+    list-style: none;
+  padding: 0;
+  text-align: left;
+  }
+
+  .card-element {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 10px 0;
+  font-size: 0.9rem;
+  color: #333;
+}
+  
+.card-element i {
+  color: #6A9C89;
+  font-size: 1.2rem;
+}
+
+  .btns {
+    width: 100%;
+  padding: 10px;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: bold;
+  color: white;
+  background: linear-gradient(135deg, #16423C, #6A9C89);
+  border: none;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  }
+  
+  .btns:hover {
+    transform: scale(0.95);
+  }
+  
+ 
+  
+  
+  @media screen and (max-width: 960px) {
+    
+  }
+  
+  
+  
+  
