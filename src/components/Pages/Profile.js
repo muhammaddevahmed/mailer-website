@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "./PagesCss/Profile.css";
 import avatarGif from "../assets/Favicon/logo.gif";
 import { Link } from "react-router-dom";
@@ -18,12 +18,6 @@ const Profile = () => {
     confirmPassword: "",
   });
   const [isEditing, setIsEditing] = useState(false);
-  const [notifications, setNotifications] = useState({
-    newsletter: true,
-    marketing: false,
-    securityAlerts: true,
-    accountUpdates: true,
-  });
   const [subscription, setSubscription] = useState({
     plan: "Premium",
     price: 19.99,
@@ -65,10 +59,6 @@ const Profile = () => {
 
   const handlePasswordChange = (field, value) => {
     setPasswordData((prev) => ({ ...prev, [field]: value }));
-  };
-
-  const handleNotificationChange = (field) => {
-    setNotifications((prev) => ({ ...prev, [field]: !prev[field] }));
   };
 
   // Toggle Edit Mode

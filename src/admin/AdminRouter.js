@@ -7,6 +7,7 @@ import UsersManagement from './pages/UsersManagement';
 import UserEmailAnalytics from './pages/UserEmailAnalytics';
 import ContactSubmissions from './pages/ContactSubmissions';
 
+
 const ProtectedRoute = ({ isAuthenticated, children }) => {
   if (!isAuthenticated) {
     return <Navigate to="/sign" replace />;
@@ -28,6 +29,7 @@ const AdminRouter = ({ isAuthenticated, onLogout }) => {
                 <Route path="users" element={<UsersManagement />} />
                 <Route path="analytics" element={<UserEmailAnalytics />} />
                 <Route path="contact" element={<ContactSubmissions />} />
+                
                 <Route index element={<Navigate to="dashboard" />} />
               </Routes>
             </AdminLayout>

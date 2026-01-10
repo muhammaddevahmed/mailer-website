@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import "./PagesCss/PrivateDomains.css";
 import "./PagesCss/f&q.css";
-import { useNavigate } from "react-router-dom";
 import domainVerificationService from '../../services/domainVerificationService';
 
 const faqs = [
@@ -91,9 +90,7 @@ const PrivateDomains = () => {
   const [showError, setShowError] = useState(false);
   const [copyFeedback, setCopyFeedback] = useState(null);
   const [active, setActive] = useState(null);
-  const [verificationStatus, setVerificationStatus] = useState({});
   const [isVerifying, setIsVerifying] = useState({});
-  const navigate = useNavigate();
 
   // Load domains from verification service
   useEffect(() => {
@@ -142,10 +139,7 @@ const PrivateDomains = () => {
     try {
       const result = await domainVerificationService.verifyMXRecords(trimmedDomain);
       
-      setVerificationStatus(prev => ({
-        ...prev,
-        [trimmedDomain]: result.status
-      }));
+
       
       // Add temporary domain with loading state
       const tempDomain = {
@@ -182,10 +176,7 @@ const PrivateDomains = () => {
     try {
       const result = await domainVerificationService.retryVerification(domainId);
       if (result) {
-        setVerificationStatus(prev => ({
-          ...prev,
-          [domainName]: result.status
-        }));
+
         
         // Update the domain in the list
         setDomains(prev => prev.map(d => 

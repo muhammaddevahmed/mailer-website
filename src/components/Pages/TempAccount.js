@@ -1,7 +1,6 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import "./PagesCss/TempAccount.css";
 import './PagesCss/f&q.css';
-import { useNavigate } from 'react-router-dom';
 
 const faqs = [
   {
@@ -101,7 +100,6 @@ const TempAccount = () => {
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
   const [active, setActive] = useState(null);
-  const navigate = useNavigate();
 
   // Toast notification
   const showToastMessage = (message) => {

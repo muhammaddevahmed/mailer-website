@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./PagesCss/SignUp.css";
 
@@ -185,11 +185,9 @@ const SignUp = ({ onLogin }) => {
           {/* Hero Section */}
           <div className="auth-hero">
             <div className="hero-content">
-              <h1 className="hero-title">
-                <i className="fa-solid fa-shield-alt hero-icon"></i>
-                Welcome Back
-              </h1>
+              <h1 className="hero-title">Welcome Back</h1>
               <p className="hero-subtitle">
+                <i className="fa-solid fa-shield-alt hero-icon"></i>
                 {isLogin
                   ? "Sign in to access your account and manage your temporary emails"
                   : "Join us today and experience secure, disposable email service"}
@@ -312,7 +310,6 @@ const SignUp = ({ onLogin }) => {
                   className="label-email"
                   style={{ color: "black" }}
                 >
-                  <i className="fa-solid fa-envelope"></i>
                   Email Address
                 </label>
                 <input
@@ -323,6 +320,7 @@ const SignUp = ({ onLogin }) => {
                   onChange={handleInputChange}
                   placeholder="Enter your email"
                   className={errors.email ? "error" : ""}
+                  autoComplete="email"
                 />
                 {errors.email && (
                   <span className="error-message">
@@ -346,6 +344,7 @@ const SignUp = ({ onLogin }) => {
                     onChange={handleInputChange}
                     placeholder="Enter your password"
                     className={errors.password ? "error" : ""}
+                    autoComplete={isLogin ? "current-password" : "new-password"}
                   />
                   <button
                     type="button"
@@ -396,6 +395,7 @@ const SignUp = ({ onLogin }) => {
                         onChange={handleInputChange}
                         placeholder="Confirm your password"
                         className={errors.confirmPassword ? "error" : ""}
+                        autoComplete="new-password"
                       />
                       <button
                         type="button"

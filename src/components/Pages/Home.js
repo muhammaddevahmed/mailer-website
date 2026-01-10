@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import './PagesCss/Home.css';
 import './PagesCss/f&q.css';
-import { useNavigate } from 'react-router-dom';
 import gifEmptyInbox from '../assets/Favicon/empty-inbox.gif';
 import qrCode from '../assets/Favicon/qr-code.gif';
 import domainVerificationService from '../../services/domainVerificationService';
@@ -130,8 +129,6 @@ const Home = () => {
   const [verifiedDomains, setVerifiedDomains] = useState([]);
   const [selectedDomain, setSelectedDomain] = useState('');
 
-  const navigate = useNavigate();
-
   // Load verified domains on component mount
   useEffect(() => {
     const domains = domainVerificationService.getVerifiedDomains();
@@ -144,7 +141,7 @@ const Home = () => {
       const newEmail = `${randomName}@${domains[0].domain}`;
       setTempEmail(newEmail);
     }
-  }, []);
+  }, [selectedDomain]);
 
   // Timer countdown effect
   useEffect(() => {

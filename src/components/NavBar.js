@@ -20,11 +20,11 @@ const NavBar = () => {
   }, []);
 
   const menuItems = [
-    { path: '/', label: 'Temp Email', icon: '✉️' },
-    { path: '/privateDomains', label: 'Domains', icon: '🌐' },
-    { path: '/TempAccount', label: 'Temp Account', icon: '👤' },
-    { path: '/Pricing', label: 'Pricing', icon: '💰' },
-    { path: '/Profile', label: 'Profile', icon: '⚙️' },
+    { path: '/', label: 'Temp Email', icon: <span role="img" aria-label="email">✉️</span> },
+    { path: '/privateDomains', label: 'Domains', icon: <span role="img" aria-label="globe">🌐</span> },
+    { path: '/TempAccount', label: 'Temp Account', icon: <span role="img" aria-label="user">👤</span> },
+    { path: '/Pricing', label: 'Pricing', icon: <span role="img" aria-label="money bag">💰</span> },
+    { path: '/Profile', label: 'Profile', icon: <span role="img" aria-label="gear">⚙️</span> },
   ];
 
   return (
@@ -33,7 +33,6 @@ const NavBar = () => {
       <nav className={`navbar ${scrolled ? 'scrolled' : ''}`}>
         <div className="nav-container">
           <NavLink 
-            exact 
             to="/" 
             className="nav-logo"
             onClick={Close}
@@ -59,10 +58,8 @@ const NavBar = () => {
               {menuItems.map((item, index) => (
                 <li key={index} className="nav-item">
                   <NavLink
-                    exact
                     to={item.path}
-                    activeClassName="active"
-                    className="nav-links"
+                    className={({ isActive }) => "nav-links" + (isActive ? " active" : "")}
                     onClick={click ? handleClick : null}
                   >
                     <span className="nav-icon">{item.icon}</span>
@@ -74,14 +71,12 @@ const NavBar = () => {
               
               <li className="nav-item nav-button-item">
                 <NavLink
-                  exact
                   to="/sign"
-                  activeClassName="active"
-                  className="sign-up-button"
+                  className={({ isActive }) => "sign-up-button" + (isActive ? " active" : "")}
                   onClick={click ? handleClick : null}
                 >
                   <span className="button-content">
-                    <span className="button-icon">🚀</span>
+                    <span className="button-icon"><span role="img" aria-label="rocket">🚀</span></span>
                     <span className="button-text">SignUp/SignIn</span>
                   </span>
                   <span className="button-glow"></span>

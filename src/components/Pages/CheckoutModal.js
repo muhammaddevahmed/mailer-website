@@ -17,7 +17,6 @@ const CheckoutModal = ({ plan, isYearly, onClose, onSuccess }) => {
   });
   
   const [promoApplied, setPromoApplied] = useState(false);
-  const [promoDiscount, setPromoDiscount] = useState(0);
   const [loading, setLoading] = useState(false);
   
   // Calculate totals
@@ -64,7 +63,6 @@ const CheckoutModal = ({ plan, isYearly, onClose, onSuccess }) => {
   const applyPromoCode = () => {
     if (formData.promoCode === 'WELCOME10') {
       setPromoApplied(true);
-      setPromoDiscount(subtotal * 0.1);
       alert('Promo code applied successfully! 10% discount applied.');
     } else {
       alert('Invalid promo code. Please try again.');
