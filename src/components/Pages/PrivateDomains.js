@@ -1,53 +1,54 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import "./PagesCss/PrivateDomains.css";
 import "./PagesCss/f&q.css";
 import { useNavigate } from "react-router-dom";
+import domainVerificationService from '../../services/domainVerificationService';
 
 const faqs = [
   {
     id: 1,
     header: "What are Private Domains?",
-    text: "Private Domains are domains that belong exclusively to your account. They are not shared with other users and can only be managed by you.",
+    text: "Private Domains are exclusive domains that belong solely to your account. Once verified through MX record check, they can be used for generating temporary emails.",
   },
   {
     id: 2,
     header: "How do I add a Private Domain?",
-    text: "To add a Private Domain, enter the domain name in the input field and click the 'Add Domain' button. The domain will then be saved to your list.",
+    text: "Enter your domain in the input field and click 'Add Domain'. The system will automatically verify MX records to ensure email functionality.",
   },
   {
     id: 3,
-    header: "Why am I seeing an error when adding a domain?",
-    text: "If you see an error message, ensure that the domain field is not empty and that you are entering a valid domain name.",
+    header: "What is MX Record Verification?",
+    text: "MX (Mail Exchange) record verification ensures that your domain is properly configured to receive emails. This is required for the domain to be usable.",
   },
   {
     id: 4,
-    header: "Can I delete a specific domain?",
-    text: "Yes, you can delete a domain by clicking the 'Delete' button next to it in your list.",
+    header: "How long does verification take?",
+    text: "Verification typically completes within a few seconds. If verification fails, you can retry or check your domain's DNS settings.",
   },
   {
     id: 5,
-    header: "How do I delete all my Private Domains at once?",
-    text: "If you have more than one domain saved, a 'Delete All' button will appear. Clicking it will remove all saved domains.",
+    header: "Can I use unverified domains?",
+    text: "No, only verified domains with proper MX records can be used for generating temporary email addresses.",
   },
   {
     id: 6,
-    header: "Can I copy my domain easily?",
-    text: "Yes, each domain has a 'Copy' button next to it. Clicking this button will copy the domain name to your clipboard for easy access.",
+    header: "How do I delete a domain?",
+    text: "Click the delete button next to any domain to remove it. This will also remove it from your available domains on the home page.",
   },
   {
     id: 7,
-    header: "Will my Private Domains be saved permanently?",
-    text: "Currently, Private Domains are stored temporarily within the session. If you refresh or leave the page, your domains may not be saved permanently.",
+    header: "Will domains expire?",
+    text: "Verified domains remain active for 30 days. You'll receive notifications before expiration to renew if needed.",
   },
   {
     id: 8,
     header: "Can I add multiple domains?",
-    text: "Yes, you can add multiple domains to your list and manage them individually.",
+    text: "Yes, you can add and verify multiple domains. All verified domains will appear in your home page for selection.",
   },
   {
     id: 9,
-    header: "Is there a limit to how many domains I can add?",
-    text: "There is no strict limit in the current version. However, adding too many domains may affect usability.",
+    header: "Why is my domain verification pending?",
+    text: "Pending verification usually means MX records aren't properly configured. Check your domain's DNS settings and retry verification.",
   },
 ];
 
@@ -89,27 +90,127 @@ const PrivateDomains = () => {
   const [domains, setDomains] = useState([]);
   const [showError, setShowError] = useState(false);
   const [copyFeedback, setCopyFeedback] = useState(null);
-  const navigate = useNavigate();
   const [active, setActive] = useState(null);
+  const [verificationStatus, setVerificationStatus] = useState({});
+  const [isVerifying, setIsVerifying] = useState({});
+  const navigate = useNavigate();
 
-  const addDomain = () => {
-    if (domain.trim() === "") {
-      setShowError(true);
-      return;
-    }
-    setShowError(false);
-    setDomains([...domains, domain.trim()]);
-    setDomain("");
+  // Load domains from verification service
+  useEffect(() => {
+    loadDomains();
+  }, []);
+
+  const loadDomains = () => {
+    const allDomains = domainVerificationService.getAllDomains();
+    const combinedDomains = [
+      ...allDomains.verified.map(d => ({ ...d, type: 'verified' })),
+      ...allDomains.pending.map(d => ({ ...d, type: 'pending' }))
+    ];
+    setDomains(combinedDomains);
   };
 
-  const deleteDomain = (index) => {
-    const newDomains = domains.filter((_, i) => i !== index);
-    setDomains(newDomains);
+  const validateDomain = (domain) => {
+    const domainRegex = /^(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z0-9][a-z0-9-]{0,61}[a-z0-9]$/i;
+    return domainRegex.test(domain);
+  };
+
+  const addDomain = async () => {
+    const trimmedDomain = domain.trim().toLowerCase();
+    
+    if (!trimmedDomain) {
+      setShowError(true);
+      setCopyFeedback("Please enter a domain name");
+      return;
+    }
+    
+    if (!validateDomain(trimmedDomain)) {
+      setShowError(true);
+      setCopyFeedback("Please enter a valid domain name (e.g., example.com)");
+      return;
+    }
+    
+    // Check if domain already exists
+    if (domains.some(d => d.domain === trimmedDomain)) {
+      setShowError(true);
+      setCopyFeedback("This domain is already added");
+      return;
+    }
+    
+    setShowError(false);
+    setIsVerifying(prev => ({ ...prev, [trimmedDomain]: true }));
+    
+    try {
+      const result = await domainVerificationService.verifyMXRecords(trimmedDomain);
+      
+      setVerificationStatus(prev => ({
+        ...prev,
+        [trimmedDomain]: result.status
+      }));
+      
+      // Add temporary domain with loading state
+      const tempDomain = {
+        id: result.id,
+        domain: trimmedDomain,
+        status: result.status,
+        type: result.status === 'verified' ? 'verified' : 'pending',
+        addedAt: new Date().toISOString()
+      };
+      
+      setDomains(prev => [...prev, tempDomain]);
+      setCopyFeedback(`Domain added! Status: ${result.status === 'verified' ? 'Verified ✓' : 'Pending verification'}`);
+      
+    } catch (error) {
+      setCopyFeedback("Verification failed. Please try again.");
+    } finally {
+      setIsVerifying(prev => ({ ...prev, [trimmedDomain]: false }));
+      setDomain("");
+    }
+    
+    setTimeout(() => setCopyFeedback(null), 3000);
+  };
+
+  const deleteDomain = (domainToDelete) => {
+    domainVerificationService.removeDomain(domainToDelete);
+    setDomains(prev => prev.filter(d => d.domain !== domainToDelete));
+    setCopyFeedback(`Domain "${domainToDelete}" deleted`);
+    setTimeout(() => setCopyFeedback(null), 2000);
+  };
+
+  const retryVerification = async (domainId, domainName) => {
+    setIsVerifying(prev => ({ ...prev, [domainName]: true }));
+    
+    try {
+      const result = await domainVerificationService.retryVerification(domainId);
+      if (result) {
+        setVerificationStatus(prev => ({
+          ...prev,
+          [domainName]: result.status
+        }));
+        
+        // Update the domain in the list
+        setDomains(prev => prev.map(d => 
+          d.id === domainId 
+            ? { ...d, status: result.status, type: result.status === 'verified' ? 'verified' : 'pending' }
+            : d
+        ));
+        
+        setCopyFeedback(`Verification ${result.status === 'verified' ? 'successful!' : 'still pending'}`);
+      }
+    } catch (error) {
+      setCopyFeedback("Retry failed. Please try again.");
+    } finally {
+      setIsVerifying(prev => ({ ...prev, [domainName]: false }));
+    }
+    
+    setTimeout(() => setCopyFeedback(null), 3000);
   };
 
   const deleteAllDomains = () => {
-    if (window.confirm("Are you sure you want to delete all domains?")) {
+    if (window.confirm("Are you sure you want to delete all domains? This cannot be undone.")) {
+      domainVerificationService.clearAll();
       setDomains([]);
+      setCopyFeedback("All domains deleted");
+      setTimeout(() => setCopyFeedback(null), 2000);
     }
   };
 
@@ -140,7 +241,7 @@ const PrivateDomains = () => {
         <div className="header-content">
           <h1 className="main-title">Private Domains</h1>
           <p className="subtitle">
-            Exclusive domains managed solely by your account
+            Add and verify domains for exclusive temporary email addresses
           </p>
         </div>
       </div>
@@ -154,8 +255,7 @@ const PrivateDomains = () => {
                 <i className="fa-solid fa-circle-plus"></i> Add New Domain
               </h2>
               <p className="input-description">
-                Enter your domain name below to add it to your private
-                collection
+                Enter your domain name below. MX record verification will be performed automatically.
               </p>
             </div>
 
@@ -177,8 +277,17 @@ const PrivateDomains = () => {
                   onClick={addDomain}
                   className="add-domain-btn"
                   aria-label="Add domain"
+                  disabled={isVerifying[domain]}
                 >
-                  <i className="fa-solid fa-plus"></i> Add
+                  {isVerifying[domain] ? (
+                    <>
+                      <i className="fa-solid fa-spinner fa-spin"></i> Verifying...
+                    </>
+                  ) : (
+                    <>
+                      <i className="fa-solid fa-plus"></i> Add Domain
+                    </>
+                  )}
                 </button>
               </div>
 
@@ -197,7 +306,7 @@ const PrivateDomains = () => {
               <div className="list-header">
                 <h3>
                   <i className="fa-solid fa-list-check"></i>
-                  Your Private Domains ({domains.length})
+                  Your Domains ({domains.filter(d => d.type === 'verified').length} verified, {domains.filter(d => d.type === 'pending').length} pending)
                 </h3>
                 {domains.length > 1 && (
                   <button
@@ -219,22 +328,27 @@ const PrivateDomains = () => {
 
               <div className="domains-grid">
                 {domains.map((domain, index) => (
-                  <div key={index} className="domain-card">
+                  <div key={domain.id} className="domain-card">
                     <div className="domain-card-header">
                       <div className="domain-number">
                         <span className="number-badge">{index + 1}</span>
-                        <h4>Domain</h4>
+                        <div className="domain-status-container">
+                          <h4>Domain</h4>
+                          <span className={`status-badge status-${domain.type}`}>
+                            {domain.type === 'verified' ? '✓ Verified' : '⏳ Pending'}
+                          </span>
+                        </div>
                       </div>
                       <div className="card-actions">
                         <button
-                          onClick={() => handleCopy(domain)}
+                          onClick={() => handleCopy(domain.domain)}
                           className="copy-domain-btn"
                           aria-label="Copy domain"
                         >
                           <i className="fa-solid fa-copy"></i>
                         </button>
                         <button
-                          onClick={() => deleteDomain(index)}
+                          onClick={() => deleteDomain(domain.domain)}
                           className="delete-domain-btn"
                           aria-label="Delete domain"
                         >
@@ -247,10 +361,35 @@ const PrivateDomains = () => {
                         <i className="fa-solid fa-globe domain-icon"></i>
                         <div className="domain-info">
                           <span className="domain-label">Domain Address</span>
-                          <p className="domain-value" title={domain}>
-                            {domain}
+                          <p className="domain-value" title={domain.domain}>
+                            {domain.domain}
                           </p>
                         </div>
+                      </div>
+                      
+                      <div className="verification-details">
+                        {domain.type === 'verified' ? (
+                          <div className="verified-info">
+                            <i className="fa-solid fa-check-circle verified-icon"></i>
+                            <span>MX records verified • Expires in 30 days</span>
+                          </div>
+                        ) : (
+                          <div className="pending-info">
+                            <i className="fa-solid fa-clock pending-icon"></i>
+                            <span>MX verification required</span>
+                            <button
+                              onClick={() => retryVerification(domain.id, domain.domain)}
+                              className="retry-btn"
+                              disabled={isVerifying[domain.domain]}
+                            >
+                              {isVerifying[domain.domain] ? (
+                                <i className="fa-solid fa-spinner fa-spin"></i>
+                              ) : (
+                                'Retry'
+                              )}
+                            </button>
+                          </div>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -263,7 +402,13 @@ const PrivateDomains = () => {
             <div className="empty-state">
               <i className="fa-solid fa-cloud domain-empty-icon"></i>
               <h3>No Domains Added Yet</h3>
-              <p>Start by adding your first private domain above</p>
+              <p>Add your first domain to start using verified domains for temporary emails</p>
+              <div className="empty-state-tips">
+                <div className="tip">
+                  <i className="fa-solid fa-lightbulb"></i>
+                  <span>Verified domains will appear on the home page for selection</span>
+                </div>
+              </div>
             </div>
           )}
         </div>
@@ -271,11 +416,12 @@ const PrivateDomains = () => {
         {/* Right Side - FAQ Section */}
         <div className="faq-section">
           <div className="faq-header">
-            <h2  style={{ color: "white" }}>
-              <i className="fa-solid fa-circle-question"></i> Frequently Asked
-              Questions
+            <h2 style={{ color: "white" }}>
+              <i className="fa-solid fa-circle-question"></i> Domain Verification FAQ
             </h2>
-            <p className="faq-subtitle"  style={{ color: "white" }}>Quick guidance for common questions</p>
+            <p className="faq-subtitle" style={{ color: "white" }}>
+              Learn about MX record verification and domain management
+            </p>
           </div>
 
           <div className="faq-container">

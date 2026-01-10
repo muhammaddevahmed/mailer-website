@@ -600,3 +600,136 @@
     transform: none;
   }
 }
+
+
+/* Domain Status Badges */
+.domain-status-container {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.status-badge {
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.status-verified {
+  background: #d1e7dd;
+  color: #0f5132;
+  border: 1px solid #badbcc;
+}
+
+.status-pending {
+  background: #fff3cd;
+  color: #664d03;
+  border: 1px solid #ffecb5;
+}
+
+/* Verification Details */
+.verification-details {
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px solid #e0e0e0;
+}
+
+.verified-info, .pending-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.9rem;
+}
+
+.verified-icon {
+  color: #198754;
+  font-size: 1rem;
+}
+
+.pending-icon {
+  color: #ffc107;
+  font-size: 1rem;
+}
+
+.pending-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.retry-btn {
+  background: #6c757d;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.retry-btn:hover:not(:disabled) {
+  background: #5a6268;
+  transform: translateY(-2px);
+}
+
+.retry-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Empty State Tips */
+.empty-state-tips {
+  margin-top: 20px;
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.tip {
+  background: #f8f9fa;
+  padding: 12px 15px;
+  border-radius: 10px;
+  border-left: 4px solid #16423c;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.tip i {
+  color: #16423c;
+  font-size: 1.1rem;
+  margin-top: 2px;
+}
+
+.tip span {
+  color: #495057;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .domains-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .domain-status-container {
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .pending-info {
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
+  }
+  
+  .retry-btn {
+    align-self: flex-start;
+  }
+}

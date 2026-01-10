@@ -4,6 +4,7 @@ import './PagesCss/f&q.css';
 import { useNavigate } from 'react-router-dom';
 import gifEmptyInbox from '../assets/Favicon/empty-inbox.gif';
 import qrCode from '../assets/Favicon/qr-code.gif';
+import domainVerificationService from '../../services/domainVerificationService';
 
 const faqs = [
   {
@@ -126,8 +127,24 @@ const Home = () => {
   const [emailValidity, setEmailValidity] = useState(10 * 60); // Convert to seconds
   const [isEmailCopied, setIsEmailCopied] = useState(false);
   const [timerRunning, setTimerRunning] = useState(true);
+  const [verifiedDomains, setVerifiedDomains] = useState([]);
+  const [selectedDomain, setSelectedDomain] = useState('');
 
   const navigate = useNavigate();
+
+  // Load verified domains on component mount
+  useEffect(() => {
+    const domains = domainVerificationService.getVerifiedDomains();
+    setVerifiedDomains(domains);
+    // Set first domain as default if available
+    if (domains.length > 0 && !selectedDomain) {
+      setSelectedDomain(domains[0].domain);
+      // Generate email with the first verified domain
+      const randomName = Math.random().toString(36).substring(2, 10);
+      const newEmail = `${randomName}@${domains[0].domain}`;
+      setTempEmail(newEmail);
+    }
+  }, []);
 
   // Timer countdown effect
   useEffect(() => {
@@ -165,10 +182,13 @@ const Home = () => {
   };
 
   const refreshEmail = () => {
-    const domains = ['@numerobo.com', '@tempinbox.com', '@maildrop.cc', '@guerrillamail.com'];
+    const domains = verifiedDomains.length > 0 
+      ? verifiedDomains.map(d => d.domain)
+      : ['numerobo.com', 'tempinbox.com', 'maildrop.cc', 'guerrillamail.com'];
+    
     const randomName = Math.random().toString(36).substring(2, 10);
     const randomDomain = domains[Math.floor(Math.random() * domains.length)];
-    const newEmail = `${randomName}${randomDomain}`;
+    const newEmail = `${randomName}@${randomDomain}`;
     
     setTempEmail(newEmail);
     setEmailValidity(10 * 60);
@@ -176,10 +196,13 @@ const Home = () => {
   };
 
   const changeEmail = () => {
-    const domains = ['@secure-temp.com', '@anonmail.net', '@privaterelay.io', '@shieldmail.pro'];
+    const domains = verifiedDomains.length > 0 
+      ? verifiedDomains.map(d => d.domain)
+      : ['secure-temp.com', 'anonmail.net', 'privaterelay.io', 'shieldmail.pro'];
+    
     const randomName = Math.random().toString(36).substring(2, 12);
     const randomDomain = domains[Math.floor(Math.random() * domains.length)];
-    const newEmail = `${randomName}${randomDomain}`;
+    const newEmail = `${randomName}@${randomDomain}`;
     
     setTempEmail(newEmail);
     setEmailValidity(10 * 60);
@@ -214,14 +237,34 @@ const Home = () => {
   };
 
   const generateNewEmail = () => {
-    const domains = ['@freshinbox.co', '@tempcloak.com', '@maskmail.live', '@ghostbox.me'];
+    const domains = verifiedDomains.length > 0 
+      ? verifiedDomains.map(d => d.domain)
+      : ['freshinbox.co', 'tempcloak.com', 'maskmail.live', 'ghostbox.me'];
+    
     const randomName = Math.random().toString(36).substring(2, 8) + Math.floor(Math.random() * 1000);
     const randomDomain = domains[Math.floor(Math.random() * domains.length)];
-    const newEmail = `${randomName}${randomDomain}`;
+    const newEmail = `${randomName}@${randomDomain}`;
     
     setTempEmail(newEmail);
     setEmailValidity(10 * 60);
     setTimerRunning(true);
+  };
+
+  const handleDomainSelect = (domain) => {
+    setSelectedDomain(domain);
+    const randomName = Math.random().toString(36).substring(2, 10);
+    const newEmail = `${randomName}@${domain}`;
+    setTempEmail(newEmail);
+    setEmailValidity(10 * 60);
+    setTimerRunning(true);
+  };
+
+  const quickUseDomain = (domain, e) => {
+    e.stopPropagation();
+    const randomName = Math.random().toString(36).substring(2, 10);
+    const newEmail = `${randomName}@${domain}`;
+    setTempEmail(newEmail);
+    copyEmail();
   };
 
   return (
@@ -281,6 +324,54 @@ const Home = () => {
               </div>
             </div>
           </div>
+
+          {/* Verified Domains Section */}
+          {verifiedDomains.length > 0 && (
+            <div className="verified-domains-section">
+              <div className="verified-domains-header">
+                <h3>
+                  <i className="fa-solid fa-shield-check"></i>
+                  Your Verified Domains
+                </h3>
+                <span className="domains-count">{verifiedDomains.length} domains</span>
+              </div>
+              
+              <div className="domains-grid-home">
+                {verifiedDomains.map((domain, index) => (
+                  <div 
+                    key={domain.id} 
+                    className={`domain-item ${selectedDomain === domain.domain ? 'selected' : ''}`}
+                    onClick={() => handleDomainSelect(domain.domain)}
+                  >
+                    <div className="domain-item-header">
+                      <div className="domain-icon-container">
+                        <i className="fa-solid fa-globe"></i>
+                      </div>
+                      <div className="domain-info">
+                        <h4>{domain.domain}</h4>
+                        <p className="domain-status">
+                          <i className="fa-solid fa-check-circle"></i>
+                          Verified
+                        </p>
+                      </div>
+                    </div>
+                    <div className="domain-item-footer">
+                      <span className="domain-expiry">
+                        Expires: {new Date(domain.expiresAt).toLocaleDateString()}
+                      </span>
+                      <button 
+                        className="use-domain-btn"
+                        onClick={(e) => quickUseDomain(domain.domain, e)}
+                      >
+                        <i className="fa-solid fa-bolt"></i>
+                        Quick Use
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
 
           <p className="description">
             <strong>Say goodbye to spam, unsolicited marketing, and potential security threats.</strong>
