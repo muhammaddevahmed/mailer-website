@@ -1,0 +1,80 @@
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+}
+
+.summary-card {
+    background-color: #fff;
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: var(--admin-shadow);
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.summary-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+.card-icon {
+    font-size: 2.5rem;
+    padding: 1rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+}
+
+.card-icon.total-users { background: linear-gradient(135deg, #56ab2f, #a8e063); }
+.card-icon.basic-users { background: linear-gradient(135deg, #2196f3, #21cbf3); }
+.card-icon.standard-users { background: linear-gradient(135deg, #ff9800, #ffc107); }
+.card-icon.premium-users { background: linear-gradient(135deg, #9c27b0, #e040fb); }
+.card-icon.emails-today { background: linear-gradient(135deg, #f44336, #ff7961); }
+.card-icon.free-emails { background: linear-gradient(135deg, #607d8b, #90a4ae); }
+
+.card-info h3 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--admin-text-color);
+}
+
+.card-info p {
+    margin: 0;
+    font-size: 1rem;
+    color: var(--admin-text-light);
+}
+
+.dashboard-charts {
+    margin-top: 2rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+}
+
+.chart-container {
+    background-color: #fff;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: var(--admin-shadow);
+}
+
+.chart-container h3 {
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--admin-primary-color);
+}
+
+@media(max-width: 1200px) {
+    .dashboard-charts {
+        grid-template-columns: 1fr;
+    }
+}

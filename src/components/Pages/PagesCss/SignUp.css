@@ -289,6 +289,31 @@
   font-weight: 500;
 }
 
+.demo-credentials {
+  background-color: #f8faf9;
+  border: 1px solid #e0e6e3;
+  border-radius: 12px;
+  padding: 15px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.demo-credentials h4 {
+  margin: 0 0 10px 0;
+  color: #16423C;
+}
+
+.demo-credentials p {
+  margin: 5px 0;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.demo-credentials p strong {
+  color: #333;
+}
+
+
 .divider::before,
 .divider::after {
   content: "";

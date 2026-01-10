@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import "./PagesCss/SignUp.css";
-import { Link } from "react-router-dom";
 
-const SignUp = () => {
+const SignUp = ({ onLogin }) => {
   const [isLogin, setIsLogin] = useState(true);
   const [formData, setFormData] = useState({
     email: "",
@@ -16,6 +16,7 @@ const SignUp = () => {
   const [passwordStrength, setPasswordStrength] = useState(0);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const navigate = useNavigate();
 
   // Toggle between login and signup
   const toggleForm = () => {
@@ -95,6 +96,12 @@ const SignUp = () => {
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (isLogin && formData.email === 'admin@demo.com' && formData.password === 'admin123') {
+      if(onLogin) onLogin();
+      navigate('/admin/dashboard');
+      return;
+    }
 
     if (!validateForm()) {
       return;
@@ -264,6 +271,14 @@ const SignUp = () => {
                 <span>or use email</span>
               </div>
             </div>
+
+            {isLogin && (
+              <div className="demo-credentials">
+                <h4>Demo Admin Credentials</h4>
+                <p><strong>Email:</strong> admin@demo.com</p>
+                <p><strong>Password:</strong> admin123</p>
+              </div>
+            )}
 
             {/* Form Content */}
             <form className="auth-form" onSubmit={handleSubmit}>
@@ -510,3 +525,4 @@ const SignUp = () => {
 };
 
 export default SignUp;
+

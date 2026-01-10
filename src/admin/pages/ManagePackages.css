@@ -1,0 +1,225 @@
+.packages-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.add-package-btn {
+    background: var(--admin-primary-color);
+    color: white;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.2s;
+}
+
+.add-package-btn:hover {
+    background: var(--admin-secondary-color);
+    transform: translateY(-2px);
+}
+
+.packages-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2rem;
+}
+
+.package-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: var(--admin-shadow);
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.package-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+}
+
+.package-name {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--admin-primary-color);
+}
+
+.package-status {
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.package-status.active {
+    background-color: #e8f5e9;
+    color: #4caf50;
+}
+
+.package-status.inactive {
+    background-color: #fceeee;
+    color: #c93434;
+}
+
+.package-details {
+    margin-bottom: 1.5rem;
+}
+
+.package-price {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.package-price span {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--admin-text-light);
+}
+
+.package-features {
+    list-style: none;
+    padding: 0;
+    margin-top: 1.5rem;
+    flex-grow: 1;
+}
+
+.package-features li {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin-bottom: 0.8rem;
+    color: var(--admin-text-color);
+}
+
+.package-features li svg {
+    color: var(--admin-secondary-color);
+    font-size: 1.2rem;
+}
+
+.package-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.package-action-btn {
+    flex: 1;
+    padding: 0.8rem;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.2s;
+    border: 1px solid transparent;
+}
+
+.edit-btn {
+    background-color: #e3f2fd;
+    color: #2196f3;
+}
+
+.edit-btn:hover {
+    background-color: #bbdefb;
+}
+
+.delete-btn {
+    background-color: #fceeee;
+    color: #c93434;
+}
+
+.delete-btn:hover {
+    background-color: #ffcdd2;
+}
+
+/* Modal styles */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1001;
+}
+
+.modal-content {
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 500px;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.modal-header h2 {
+    margin: 0;
+    color: var(--admin-primary-color);
+}
+
+.close-modal-btn {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--admin-text-light);
+}
+
+.package-form .form-group {
+    margin-bottom: 1.5rem;
+}
+
+.package-form label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: var(--admin-text-color);
+}
+
+.package-form input,
+.package-form textarea,
+.package-form select {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+}
+
+.package-form textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.save-btn {
+    background: var(--admin-primary-color);
+    color: white;
+}
+
+.cancel-btn {
+    background: #f1f3f5;
+    color: var(--admin-text-color);
+}

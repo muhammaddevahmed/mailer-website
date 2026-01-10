@@ -563,13 +563,7 @@ const Home = () => {
               <h3>Privacy Protection</h3>
               <p>Keep your personal email address private and avoid spam and tracking</p>
             </div>
-            <div className="feature-card">
-              <div className="feature-icon">
-                <i className="fa-solid fa-stopwatch"></i>
-              </div>
-              <h3>10-Minute Validity</h3>
-              <p>Emails automatically expire after 10 minutes for maximum security</p>
-            </div>
+           
             <div className="feature-card">
               <div className="feature-icon">
                 <i className="fa-solid fa-mobile-screen"></i>
