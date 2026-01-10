@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import './Pages/PagesCss/Footer.css';
 import appleLogo from '../components/assets/apple-store.png'; 
 import googleLogo from '../components/assets/google-play.png'; 
@@ -19,26 +20,26 @@ const Footer = () => {
                 Our Website Is Develop and Maintained by D-Tech Studios.
             </p>
             <div className="app-badges">
-              <a href="#" className="store-link">
+              <Link to="#" className="store-link">
                 <img src={appleLogo} alt="App Store" className="store-image" />
-              </a>
-              <a href="#" className="store-link">
+              </Link>
+              <Link to="#" className="store-link">
                 <img src={googleLogo} alt="Google Play" className="store-image" />
-              </a>
+              </Link>
             </div>
             <div className="social-links">
-              <a href="#" className="social-icon">
+              <Link to="#" className="social-icon">
                 <i className="fab fa-facebook-f"></i>
-              </a>
-              <a href="#" className="social-icon">
+              </Link>
+              <Link to="#" className="social-icon">
                 <i className="fab fa-twitter"></i>
-              </a>
-              <a href="#" className="social-icon">
+              </Link>
+              <Link to="#" className="social-icon">
                 <i className="fab fa-linkedin-in"></i>
-              </a>
-              <a href="#" className="social-icon">
+              </Link>
+              <Link to="#" className="social-icon">
                 <i className="fab fa-instagram"></i>
-              </a>
+              </Link>
             </div>
           </div>
 
@@ -46,20 +47,19 @@ const Footer = () => {
           <div className="footer-column">
               <h5 className="nav-title">About Us</h5>
               <ul className="nav-list">
-                <li><a href="/" className="nav-link">Home</a></li>
-                <li><a href="/about" className="nav-link">About</a></li>
-                <li><a href="#" className="nav-link">Team</a></li>
-                <li><a href="/contact" className="nav-link">Contact</a></li>
+                <li><Link to="/" className="nav-link">Home</Link></li>
+                <li><Link to="/about" className="nav-link">About</Link></li>
+                <li><Link to="/contact" className="nav-link">Contact</Link></li>
               </ul>
             </div>
 
             <div className="footer-column">
               <h5 className="nav-title">Legal Information</h5>
               <ul className="nav-list">
-                <li><a href="/privacy" className="nav-link">Privacy Policy</a></li>
-                <li><a href="/terms" className="nav-link">Terms of Service</a></li>
-                <li><a href="/content" className="nav-link">Content Policy</a></li>
-                <li><a href="/disclaimer" className="nav-link">Disclaimer</a></li>
+                <li><Link to="/privacy" className="nav-link">Privacy Policy</Link></li>
+                <li><Link to="/terms" className="nav-link">Terms of Service</Link></li>
+                <li><Link to="/content" className="nav-link">Content Policy</Link></li>
+                <li><Link to="/disclaimer" className="nav-link">Disclaimer</Link></li>
               </ul>
             </div>
           </div>

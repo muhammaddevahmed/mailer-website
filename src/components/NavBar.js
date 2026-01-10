@@ -1,126 +1,105 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import './Pages/PagesCss/NavBar.css';
 import gifLogo from '../components/assets/Favicon/logo.gif';
 
 const NavBar = () => {
   const [click, setClick] = useState(false);
-  const [selectedLanguage, setSelectedLanguage] = useState('ENG');
+  const [scrolled, setScrolled] = useState(false);
 
   const handleClick = () => setClick(!click);
   const Close = () => setClick(false);
 
-  const handleLanguageChange = (e) => {
-    setSelectedLanguage(e.target.value);
-  };
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const menuItems = [
+    { path: '/', label: 'Temp Email', icon: '✉️' },
+    { path: '/privateDomains', label: 'Domains', icon: '🌐' },
+    { path: '/TempAccount', label: 'Temp Account', icon: '👤' },
+    { path: '/Pricing', label: 'Pricing', icon: '💰' },
+    { path: '/Profile', label: 'Profile', icon: '⚙️' },
+  ];
 
   return (
-    <div>
-      <div className={click ? 'main-container' : ''} onClick={() => Close()} />
-      <nav className="navbar" onClick={(e) => e.stopPropagation()}>
+    <>
+      <div className={`nav-overlay ${click ? 'active' : ''}`} onClick={Close} />
+      <nav className={`navbar ${scrolled ? 'scrolled' : ''}`}>
         <div className="nav-container">
-          <NavLink exact to="/" className="nav-logo">
-          <img src={gifLogo} alt="Temp-MailHub Logo" className="nav-logo-image" />
-          <h1 className="nav-logo-text">
-  <span className="green">Temp</span><span className="white">-</span><span className="blue">MailHub</span>
-</h1>
-
+          <NavLink 
+            exact 
+            to="/" 
+            className="nav-logo"
+            onClick={Close}
+          >
+            <div className="logo-wrapper">
+              <img 
+                src={gifLogo} 
+                alt="Temp-MailHub Logo" 
+                className="nav-logo-image" 
+              />
+              <div className="logo-glow"></div>
+            </div>
+            <div className="logo-text-wrapper">
+              <h1 className="nav-logo-text">
+                Temp-MailHub
+              </h1>
+              <span className="logo-subtitle">Secure & Temporary</span>
+            </div>
           </NavLink>
-          <ul className={click ? 'nav-menu active' : 'nav-menu'}>
-            <li className="nav-item">
-              <NavLink
-                exact
-                to="/"
-                activeClassName="active"
-                className="nav-links"
-                onClick={click ? handleClick : null}
-              >
-                Temp Email
-              </NavLink>
-            </li>
 
-            <li className="nav-item">
-              <NavLink
-                exact
-                to="/privateDomains"
-                activeClassName="active"
-                className="nav-links"
-                onClick={click ? handleClick : null}
-              >
-                Domains
-              </NavLink>
-            </li>
+          <div className="nav-menu-wrapper">
+            <ul className={click ? 'nav-menu active' : 'nav-menu'}>
+              {menuItems.map((item, index) => (
+                <li key={index} className="nav-item">
+                  <NavLink
+                    exact
+                    to={item.path}
+                    activeClassName="active"
+                    className="nav-links"
+                    onClick={click ? handleClick : null}
+                  >
+                    <span className="nav-icon">{item.icon}</span>
+                    <span className="nav-label">{item.label}</span>
+                    <span className="nav-underline"></span>
+                  </NavLink>
+                </li>
+              ))}
+              
+              <li className="nav-item nav-button-item">
+                <NavLink
+                  exact
+                  to="/sign"
+                  activeClassName="active"
+                  className="sign-up-button"
+                  onClick={click ? handleClick : null}
+                >
+                  <span className="button-content">
+                    <span className="button-icon">🚀</span>
+                    <span className="button-text">SignUp/SignIn</span>
+                  </span>
+                  <span className="button-glow"></span>
+                </NavLink>
+              </li>
+            </ul>
+          </div>
 
-            <li className="nav-item">
-              <NavLink
-                exact
-                to="/TempAccount"
-                activeClassName="active"
-                className="nav-links"
-                onClick={click ? handleClick : null}
-              >
-                Temp Acc
-              </NavLink>
-            </li>
-
-            <li className="nav-item">
-              <NavLink
-                exact
-                to="/Pricing"
-                activeClassName="active"
-                className="nav-links"
-                onClick={click ? handleClick : null}
-              >
-                Pricing
-              </NavLink>
-            </li>
-
-            <li className="nav-item">
-              <NavLink
-                exact
-                to="/Profile"
-                activeClassName="active"
-                className="nav-links"
-                onClick={click ? handleClick : null}
-              >
-                Profile
-              </NavLink>
-            </li>
-            
-            <li className="nav-item">
-            <NavLink
-    exact
-    to="/sign"
-    activeClassName="active"
-    className="nav-links2"
-    onClick={click ? handleClick : null}
-    style={{
-      background: '#6A9C89',
-      border: 'none',
-      borderRadius: '30px',
-      cursor: 'pointer',
-      color: '#fff',
-      padding: '1rem',
-      textDecoration: 'none',
-      transition: 'background-color 0.3s',
-      fontWeight:'bolder',
-      fontSize:'15px',
-      margin: '0.5rem'
-    }}
-    onMouseEnter={(e) => e.target.style.backgroundColor = '#6A9C89'}
-    onMouseLeave={(e) => e.target.style.backgroundColor = '#16423C'}
-  >
-    Sign-Up / Sign-In
-  </NavLink>
-  </li>
-
-          </ul>
           <div className="nav-icon" onClick={handleClick}>
-            <i className={click ? 'fa fa-times' : 'fa fa-bars'}></i>
+            <div className="hamburger">
+              <span className={`bar bar1 ${click ? 'active' : ''}`}></span>
+              <span className={`bar bar2 ${click ? 'active' : ''}`}></span>
+              <span className={`bar bar3 ${click ? 'active' : ''}`}></span>
+            </div>
           </div>
         </div>
       </nav>
-    </div>
+    </>
   );
 };
 

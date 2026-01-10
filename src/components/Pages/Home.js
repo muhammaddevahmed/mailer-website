@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import './PagesCss/Home.css';
 import './PagesCss/f&q.css';
 import { useNavigate } from 'react-router-dom';
@@ -91,138 +91,433 @@ const AccordionItem = (props) => {
 const Home = () => {
   const [tempEmail, setTempEmail] = useState('mokoh16217@numerobo.com');
   const [inbox, setInbox] = useState([
-    { sender: 'example@domain.com', subject: 'Welcome to Temp Mail', id: 1 },
-    { sender: 'no-reply@newsletter.com', subject: 'Get our latest updates', id: 2 },
-    { sender: 'admin@website.com', subject: 'Your account has been activated', id: 3 },
+    { 
+      id: 1,
+      sender: 'example@domain.com', 
+      senderName: 'Temp Mail Service',
+      subject: 'Welcome to Temp Mail', 
+      content: 'Thank you for using our temporary email service. This is a welcome email to show you how incoming messages will appear in your inbox. You can safely use this temporary email for all your verification needs without exposing your personal email address.',
+      timestamp: '10:30 AM, Today',
+      attachments: []
+    },
+    { 
+      id: 2,
+      sender: 'no-reply@newsletter.com', 
+      senderName: 'Tech Newsletter',
+      subject: 'Get our latest updates', 
+      content: 'Stay updated with the latest technology trends and news. Our newsletter brings you curated content about web development, cybersecurity, and emerging technologies. Click here to learn more about our premium features.',
+      timestamp: '09:15 AM, Today',
+      attachments: []
+    },
+    { 
+      id: 3,
+      sender: 'admin@website.com', 
+      senderName: 'Website Admin',
+      subject: 'Your account has been activated', 
+      content: 'Your account registration has been successfully processed and activated. You can now log in and start using all the features available. Please keep this email for your records. If you did not create this account, please contact our support team immediately.',
+      timestamp: 'Yesterday, 3:45 PM',
+      attachments: []
+    },
   ]);
 
-  // Functions for buttons
+  const [selectedEmail, setSelectedEmail] = useState(null);
+  const [showEmailDetails, setShowEmailDetails] = useState(false);
+  const [active, setActive] = useState(null);
+  const [emailValidity, setEmailValidity] = useState(10 * 60); // Convert to seconds
+  const [isEmailCopied, setIsEmailCopied] = useState(false);
+  const [timerRunning, setTimerRunning] = useState(true);
+
+  const navigate = useNavigate();
+
+  // Timer countdown effect
+  useEffect(() => {
+    let intervalId;
+    
+    if (timerRunning && emailValidity > 0) {
+      intervalId = setInterval(() => {
+        setEmailValidity(prev => {
+          if (prev <= 1) {
+            clearInterval(intervalId);
+            setTimerRunning(false);
+            alert('Your temporary email has expired! Generate a new one.');
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+    }
+
+    return () => {
+      if (intervalId) clearInterval(intervalId);
+    };
+  }, [timerRunning, emailValidity]);
+
+  const formatTime = (seconds) => {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+  };
+
   const copyEmail = () => {
     navigator.clipboard.writeText(tempEmail);
-    alert('Email Address Copied!');
+    setIsEmailCopied(true);
+    setTimeout(() => setIsEmailCopied(false), 2000);
   };
 
   const refreshEmail = () => {
-    setTempEmail('new-email@numerobo.com');
+    const domains = ['@numerobo.com', '@tempinbox.com', '@maildrop.cc', '@guerrillamail.com'];
+    const randomName = Math.random().toString(36).substring(2, 10);
+    const randomDomain = domains[Math.floor(Math.random() * domains.length)];
+    const newEmail = `${randomName}${randomDomain}`;
+    
+    setTempEmail(newEmail);
+    setEmailValidity(10 * 60);
+    setTimerRunning(true);
   };
 
   const changeEmail = () => {
-    setTempEmail('another-email@numerobo.com');
+    const domains = ['@secure-temp.com', '@anonmail.net', '@privaterelay.io', '@shieldmail.pro'];
+    const randomName = Math.random().toString(36).substring(2, 12);
+    const randomDomain = domains[Math.floor(Math.random() * domains.length)];
+    const newEmail = `${randomName}${randomDomain}`;
+    
+    setTempEmail(newEmail);
+    setEmailValidity(10 * 60);
+    setTimerRunning(true);
   };
 
   const deleteEmail = () => {
     setInbox([]);
   };
 
-  const [active, setActive] = useState(null);
+  const deleteSingleEmail = (id) => {
+    setInbox(inbox.filter(email => email.id !== id));
+    // If we're deleting the currently selected email, close the details panel
+    if (selectedEmail && selectedEmail.id === id) {
+      setSelectedEmail(null);
+      setShowEmailDetails(false);
+    }
+  };
 
-const handleToggle = (id) => {
-  setActive(active === id ? null : id);
-};
-  
+  const handleToggle = (id) => {
+    setActive(active === id ? null : id);
+  };
 
-const navigate = useNavigate(); // Initialize navigate function
+  const openEmailDetails = (email) => {
+    setSelectedEmail(email);
+    setShowEmailDetails(true);
+  };
 
+  const closeEmailDetails = () => {
+    setShowEmailDetails(false);
+    setSelectedEmail(null);
+  };
+
+  const generateNewEmail = () => {
+    const domains = ['@freshinbox.co', '@tempcloak.com', '@maskmail.live', '@ghostbox.me'];
+    const randomName = Math.random().toString(36).substring(2, 8) + Math.floor(Math.random() * 1000);
+    const randomDomain = domains[Math.floor(Math.random() * domains.length)];
+    const newEmail = `${randomName}${randomDomain}`;
+    
+    setTempEmail(newEmail);
+    setEmailValidity(10 * 60);
+    setTimerRunning(true);
+  };
 
   return (
-    <div>
-    <div className="home-container">
-      <div className="email-section">
-        <h1>Your Temporary Email Address</h1>
-        <div className="email-box">
-  <p className="email-address">{tempEmail}</p>
-  <button className="gif-bg">
-  <img src={qrCode} alt="QR-Code" className="qr-code-gif" />
-  </button>
-  <button className="copy-button" onClick={copyEmail}>
-  <i className="fa-solid fa-copy"></i> Copy
-</button>
-</div>
-
-        <p className="description">
-        <strong>Say goodbye to spam, unsolicited marketing, and potential security threats.</strong>
-        </p>
-        <p className="description">
-        With Temp-MailHub, you can keep your personal inbox clean, secure, and free from unwanted emails. Our <strong>temporary, anonymous, and disposable email addresses</strong> ensure that your primary email remains private while safeguarding you from malicious bots and privacy breaches. <strong>Protect your online presence</strong> with our free, reliable service designed to keep your digital life safe.
-        </p>
-
-        <div className="button-row">
-        <button className="button" onClick={copyEmail}>
-  <i className="fa-solid fa-copy"></i> Copy
-</button>
-<button className="button" onClick={refreshEmail}>
-<i class="fa-solid fa-arrows-rotate"></i> Refresh
-</button>
-<button className="button" onClick={changeEmail}>
-<i class="fa-solid fa-pen"></i> Change
-</button>
-<button className="button" onClick={deleteEmail}>
-<i class="fa-solid fa-circle-xmark"></i> Delete
-</button>
+    <div className="home-page">
+      {/* Main Content */}
+      <div className="home-container">
+        {/* Hero Section */}
+        <div className="hero-section">
+          <h1 className="hero-title">
+            <span className="highlight">Secure</span> Temporary Email Service
+          </h1>
+          <p className="hero-subtitle">
+            Protect your privacy with disposable email addresses that keep your inbox clean and secure
+          </p>
         </div>
-      </div>
 
-      <div className="inbox-section">
-      <div className="inbox-header">
-      <h2>
-        <i className="fa-solid fa-inbox" style={{ marginRight: '10px' }}></i>
-        Inbox
-      </h2>
-    </div>
-    <div className="inbox-header1">
-      <span>
-        <i className="fa-solid fa-user"></i> Sender
-      </span>
-      <span>
-        <i className="fa-solid fa-file-alt"></i> Subject
-      </span>
-      <span>
-        <i className="fa-solid fa-eye"></i> View
-      </span>
-    </div>
-        <div className="inbox-content">
-        {inbox.length === 0 ? (
-          <div className="empty-inbox-container">
-          <img src={gifEmptyInbox} alt="No inbox" className="empty-inbox-gif" />
-          <p className="empty-inbox">Your Inbox is Empty.</p>
-          <p className="empty-inbox2">Waiting for Incoming Emails!</p>
-        </div>
-        ) : (
-          inbox.map((mail) => (
-            <div className="inbox-item" key={mail.id}>
-              <span>{mail.sender}</span>
-              <span>{mail.subject}</span>
-              <button className="view-button">View</button>
+        {/* Email Section */}
+        <div className="email-section">
+          <div className="email-header">
+            <h2>Your Temporary Email Address</h2>
+            <div className="validity-timer">
+              <i className="fa-solid fa-clock"></i>
+              <span className="timer-text">Valid for: {formatTime(emailValidity)}</span>
+              <div className={`timer-dot ${timerRunning ? 'running' : 'paused'}`}></div>
             </div>
-          ))
-        )}
-        </div>
-      </div>
-    </div>
-
-    <div className="container-fluid mt-5 mb-5">
-    <div className="row d-flex justify-content-center align-items-center">
-    <div className="col-md-8 col-lg-6 col-sm-10 mt-2 mx-auto">
-            <div className="card">
-              <div className="card-body">
-                <h4 className="form-heading mb-4 text-primary text-center mt-3">
-                FAQ
-                </h4>
-                <p className="praText">The frequent questions and you can find quick guidance here</p>
-                {faqs.map((faq, index) => {
-                  return (
-                    <AccordionItem
-                      key={index}
-                      active={active}
-                      handleToggle={handleToggle}
-                      faq={faq}
-                    />
-                  );
-                })}
+          </div>
+          
+          <div className="email-display-container">
+            <div className="email-display-box">
+              <div className="email-text">
+                <i className="fa-solid fa-envelope"></i>
+                <span className="email-address">{tempEmail}</span>
+                {isEmailCopied && <span className="copied-badge">Copied!</span>}
+              </div>
+              <div className="email-actions">
+                <button className="qr-button" title="Show QR Code">
+                  <img src={qrCode} alt="QR Code" className="qr-code-gif" />
+                </button>
+                <button className={`copy-button ${isEmailCopied ? 'copied' : ''}`} onClick={copyEmail}>
+                  <i className={`fa-solid ${isEmailCopied ? 'fa-check' : 'fa-copy'}`}></i>
+                  {isEmailCopied ? 'Copied!' : 'Copy'}
+                </button>
+              </div>
+            </div>
+            
+            {/* Timer Progress Bar */}
+            <div className="timer-progress-container">
+              <div className="timer-progress-bar">
+                <div 
+                  className="timer-progress-fill"
+                  style={{ width: `${(emailValidity / (10 * 60)) * 100}%` }}
+                ></div>
+              </div>
+              <div className="timer-progress-labels">
+                <span>0 min</span>
+                <span>10 min</span>
               </div>
             </div>
           </div>
+
+          <p className="description">
+            <strong>Say goodbye to spam, unsolicited marketing, and potential security threats.</strong>
+            With Temp-MailHub, you can keep your personal inbox clean, secure, and free from unwanted emails.
+          </p>
+
+          <div className="email-stats">
+            <div className="stat-item">
+              <i className="fa-solid fa-shield-halved"></i>
+              <div>
+                <h4>100% Anonymous</h4>
+                <p>No personal data required</p>
+              </div>
+            </div>
+            <div className="stat-item">
+              <i className="fa-solid fa-bolt"></i>
+              <div>
+                <h4>Instant Access</h4>
+                <p>No registration needed</p>
+              </div>
+            </div>
+            <div className="stat-item">
+              <i className="fa-solid fa-infinity"></i>
+              <div>
+                <h4>Unlimited</h4>
+                <p>Generate unlimited emails</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="button-row">
+            <button className="button btn-primary" onClick={copyEmail}>
+              <i className="fa-solid fa-copy"></i> Copy
+            </button>
+            <button className="button btn-secondary" onClick={refreshEmail}>
+              <i className="fa-solid fa-arrows-rotate"></i> Refresh
+            </button>
+            <button className="button btn-secondary" onClick={changeEmail}>
+              <i className="fa-solid fa-pen"></i> Change
+            </button>
+            <button className="button btn-danger" onClick={deleteEmail}>
+              <i className="fa-solid fa-trash"></i> Delete All
+            </button>
+            <button className="button btn-success" onClick={generateNewEmail}>
+              <i className="fa-solid fa-plus"></i> New Email
+            </button>
+          </div>
         </div>
+
+        {/* Email Details & Inbox Section */}
+        <div className="email-content-section">
+          <div className={`email-details-panel ${showEmailDetails ? 'active' : ''}`}>
+            {selectedEmail ? (
+              <div className="email-details-container">
+                <div className="email-details-header">
+                  <h3>{selectedEmail.subject}</h3>
+                  <button className="email-details-close" onClick={closeEmailDetails}>
+                    <i className="fa-solid fa-xmark"></i>
+                  </button>
+                </div>
+                <div className="email-details-body">
+                  <div className="email-sender-info">
+                    <div className="sender-avatar">
+                      <i className="fa-solid fa-user-circle"></i>
+                    </div>
+                    <div className="sender-details">
+                      <h4>{selectedEmail.senderName}</h4>
+                      <p className="sender-email">{selectedEmail.sender}</p>
+                      <p className="email-time">{selectedEmail.timestamp}</p>
+                    </div>
+                  </div>
+                  <div className="email-content">
+                    <p>{selectedEmail.content}</p>
+                  </div>
+                  {selectedEmail.attachments && selectedEmail.attachments.length > 0 && (
+                    <div className="email-attachments">
+                      <h5><i className="fa-solid fa-paperclip"></i> Attachments</h5>
+                      <div className="attachments-list">
+                        {selectedEmail.attachments.map((attachment, index) => (
+                          <div key={index} className="attachment-item">
+                            <i className="fa-solid fa-file"></i>
+                            <span>{attachment.name}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+                <div className="email-details-footer">
+                  <button className="btn-secondary" onClick={() => deleteSingleEmail(selectedEmail.id)}>
+                    <i className="fa-solid fa-trash"></i> Delete Email
+                  </button>
+                  <button className="btn-secondary" onClick={() => navigator.clipboard.writeText(selectedEmail.content)}>
+                    <i className="fa-solid fa-copy"></i> Copy Content
+                  </button>
+                  <button className="btn-primary" onClick={closeEmailDetails}>
+                    Close
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <div className="no-email-selected">
+                <i className="fa-solid fa-envelope-open-text"></i>
+                <h3>Select an email to view</h3>
+                <p>Click on any email from the inbox to see its details here</p>
+              </div>
+            )}
+          </div>
+
+          {/* Inbox Section */}
+          <div className="inbox-section">
+            <div className="inbox-header">
+              <div className="inbox-title">
+                <i className="fa-solid fa-inbox"></i>
+                <h2>Inbox</h2>
+                <span className="email-count">{inbox.length} emails</span>
+              </div>
+              <button className="refresh-inbox" onClick={() => alert('Inbox refreshed!')}>
+                <i className="fa-solid fa-sync-alt"></i> Refresh
+              </button>
+            </div>
+            
+            <div className="inbox-header-row">
+              <span className="header-item">
+                <i className="fa-solid fa-user"></i> Sender
+              </span>
+              <span className="header-item">
+                <i className="fa-solid fa-file-alt"></i> Subject
+              </span>
+              <span className="header-item">
+                <i className="fa-solid fa-clock"></i> Time
+              </span>
+              <span className="header-item" >
+                <i className="fa-solid fa-eye"></i> View
+              </span>
+            </div>
+            
+            <div className="inbox-content">
+              {inbox.length === 0 ? (
+                <div className="empty-inbox-container">
+                  <div className="empty-inbox-animation">
+                    <img src={gifEmptyInbox} alt="Empty inbox" className="empty-inbox-gif" />
+                    <div className="pulse-ring"></div>
+                  </div>
+                  <h3 className="empty-inbox-title">Your Inbox is Empty</h3>
+                  <p className="empty-inbox-subtitle">Waiting for incoming emails...</p>
+                </div>
+              ) : (
+                inbox.map((mail) => (
+                  <div 
+                    className={`inbox-item ${selectedEmail && selectedEmail.id === mail.id ? 'selected' : ''}`} 
+                    key={mail.id}
+                    onClick={() => openEmailDetails(mail)}
+                  >
+                    <div className="sender-info">
+                      <div className="sender-avatar">
+                        <i className="fa-solid fa-user-circle"></i>
+                      </div>
+                      <div className="sender-details">
+                        <span className="sender-name">{mail.senderName}</span>
+                        <span className="sender-email">{mail.sender}</span>
+                      </div>
+                    </div>
+                    <span className="email-subject">{mail.subject}</span>
+                    <span className="email-time">{mail.timestamp}</span>
+                    <div className="email-actions">
+                      <button className="view-button" style={{ color: 'white' }} onClick={(e) => {
+                        e.stopPropagation();
+                        openEmailDetails(mail);
+                      }}>
+                        <i className="fa-solid fa-eye"></i> View
+                      </button>
+                    </div>
+                  </div>
+                ))
+              )}
+            </div>
+          </div>
+        </div>
+
+        {/* Features Section */}
+        <div className="features-section">
+          <h2 className="section-title">Why Choose Temp-MailHub?</h2>
+          <div className="features-grid">
+            <div className="feature-card">
+              <div className="feature-icon">
+                <i className="fa-solid fa-user-shield"></i>
+              </div>
+              <h3>Privacy Protection</h3>
+              <p>Keep your personal email address private and avoid spam and tracking</p>
+            </div>
+            <div className="feature-card">
+              <div className="feature-icon">
+                <i className="fa-solid fa-stopwatch"></i>
+              </div>
+              <h3>10-Minute Validity</h3>
+              <p>Emails automatically expire after 10 minutes for maximum security</p>
+            </div>
+            <div className="feature-card">
+              <div className="feature-icon">
+                <i className="fa-solid fa-mobile-screen"></i>
+              </div>
+              <h3>Mobile Friendly</h3>
+              <p>Works perfectly on all devices and screen sizes</p>
+            </div>
+            <div className="feature-card">
+              <div className="feature-icon">
+                <i className="fa-solid fa-bolt"></i>
+              </div>
+              <h3>Fast & Free</h3>
+              <p>No registration required, instant email generation</p>
+            </div>
+          </div>
+        </div>
+
+        {/* FAQ Section */}
+        <div className="faq-section">
+          <div className="faq-header">
+            <h2 className="section-title"style={{ color: 'white' }} >
+              <i className="fa-solid fa-circle-question" style={{ color: 'white' }}></i>
+              Frequently Asked Questions
+            </h2>
+            <p className="section-subtitle" style={{ color: 'white' }}>Quick answers to common questions</p>
+          </div>
+          
+          <div className="faq-container">
+            {faqs.map((faq, index) => (
+              <AccordionItem
+                key={index}
+                active={active}
+                handleToggle={handleToggle}
+                faq={faq}
+              />
+            ))}
+          </div>
+        </div>
+
       </div>
     </div>
   );

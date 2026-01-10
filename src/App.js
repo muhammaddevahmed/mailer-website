@@ -4,7 +4,7 @@ import NavBar from './components/NavBar';
 import Home from './components/Pages/Home';
 import TempAccount from './components/Pages/TempAccount';
 import Pricing from './components/Pages/Pricing';
-import Footer from './components/Footer';
+import Footer from './components/Footer'; 
 import SignUp from './components/Pages/SignUp';
 import Profile from './components/Pages/Profile';
 import PrivateDomains from './components/Pages/PrivateDomains';

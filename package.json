@@ -5,12 +5,14 @@
   "dependencies": {
     "cra-template": "1.2.0",
     "fast-deep-equal": "^3.1.3",
+    "framer-motion": "4.1.17",
     "isexe": "^3.1.1",
     "qrcode.react": "^4.2.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-router-dom": "^6.29.0",
     "react-scripts": "^3.0.1",
+    "react-toastify": "^11.0.5",
     "web-vitals": "^4.2.4"
   },
   "scripts": {
