@@ -732,7 +732,7 @@ const Home = () => {
                             </div>
                             <div className="sender-details">
                               <span className="sender-name" style={{ color: 'white' }}>{mail.senderName}</span>
-                              <span className="sender-email">{mail.sender}</span>
+                              <span className="sender-email" style={{ color: 'white' }}>{mail.sender}</span>
                             </div>
                           </div>
                           <span className="email-subject">{mail.subject}</span>
@@ -765,8 +765,8 @@ const Home = () => {
                           </div>
                           <div className="sender-details">
                             <h4>{selectedEmail.senderName}</h4>
-                            <p className="sender-email">{selectedEmail.sender}</p>
-                            <p className="email-time">{selectedEmail.timestamp}</p>
+                            <p className="sender-email" style={{ color: 'white' }}>{selectedEmail.sender}</p>
+                            <p className="email-time" style={{ color: 'white' }}>{selectedEmail.timestamp}</p>
                           </div>
                         </div>
                         <div className="email-content">
