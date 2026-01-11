@@ -1,7 +1,7 @@
 // Sidebar.jsx - Enhanced
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { FaTachometerAlt, FaBox, FaUsers, FaChartLine, FaEnvelope, FaSignOutAlt, FaChevronLeft, FaChevronRight, FaCog, FaBell, FaUserCog } from 'react-icons/fa';
+import { FaTachometerAlt, FaBox, FaUsers, FaChartLine, FaEnvelope, FaSignOutAlt, FaChevronLeft, FaChevronRight, FaUserCog } from 'react-icons/fa';
 import './Sidebar.css';
 
 const Sidebar = ({ isCollapsed, isMobile, isOpen, onToggle, onLogout }) => {

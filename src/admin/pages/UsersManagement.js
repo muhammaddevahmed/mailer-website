@@ -20,7 +20,6 @@ import { usersData } from "../data/usersData";
 import "./UsersManagement.css";
 
 const UserDetailsModal = ({ isOpen, onClose, user, onUpdateStatus }) => {
-  const [isEditing, setIsEditing] = useState(false);
 
   if (!isOpen || !user) return null;
 
@@ -384,7 +383,7 @@ const UsersManagement = () => {
 
       {sortedUsers.length === 0 ? (
         <div className="empty-state">
-          <div className="empty-state-icon">👤</div>
+          <div className="empty-state-icon"><span role="img" aria-label="user icon">👤</span></div>
           <h3>No users found</h3>
           <p>Try adjusting your search or filters</p>
         </div>

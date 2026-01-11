@@ -294,6 +294,7 @@ const SignUp = ({ onLogin }) => {
                     onChange={handleInputChange}
                     placeholder="Choose a username"
                     className={errors.username ? "error" : ""}
+                    autoComplete="username"
                   />
                   {errors.username && (
                     <span className="error-message">

@@ -48,11 +48,6 @@ const PackageModal = ({ isOpen, onClose, onSave, currentPackage }) => {
     const { name, value } = e.target;
     setPkg({ ...pkg, [name]: value });
   };
-  
-  const handleFeaturesChange = (e) => {
-    const featuresArray = e.target.value.split('\n').filter(feature => feature.trim() !== '');
-    setPkg({ ...pkg, features: featuresArray });
-  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -336,7 +331,7 @@ const ManagePackages = () => {
 
       {filteredPackages.length === 0 ? (
         <div className="empty-state">
-          <div className="empty-state-icon">📦</div>
+          <div className="empty-state-icon"><span role="img" aria-label="package icon">📦</span></div>
           <h3>No packages found</h3>
           <p>Try adjusting your search or create a new package</p>
           <button className="empty-state-btn" onClick={() => openModal()}>

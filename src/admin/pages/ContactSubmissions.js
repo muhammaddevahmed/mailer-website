@@ -1,7 +1,6 @@
 // ContactSubmissions.jsx - Enhanced Version
 import React, { useState } from "react";
 import {
-  FaUser,
   FaEnvelope,
   FaFileAlt,
   FaCalendarAlt,
@@ -81,7 +80,7 @@ const ContactSubmissions = () => {
 
       {filteredSubmissions.length === 0 ? (
         <div className="no-results">
-          <div className="no-results-icon">📭</div>
+          <div className="no-results-icon"><span role="img" aria-label="empty mailbox">📭</span></div>
           <h3>No submissions found</h3>
           <p>Try adjusting your search or filter</p>
         </div>

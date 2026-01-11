@@ -9,13 +9,11 @@ import {
   FaPaperPlane,
   FaArrowUp,
   FaArrowDown,
-  FaCalendarAlt,
-  FaChartBar,
   FaFilter,
   FaDollarSign,
   FaChartLine
 } from "react-icons/fa";
-import { summaryData, chartData } from "../data/dashboardData";
+import { summaryData } from "../data/dashboardData";
 import "./AdminDashboard.css";
 
 const SummaryCard = ({ icon, title, value, percentage, trend, iconClass }) => (

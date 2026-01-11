@@ -38,7 +38,7 @@ function App() {
 
   return (
     <>
-      <BrowserRouter>
+      <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
         <Routes>
           <Route path="/admin/*" element={<AdminRouter isAuthenticated={isAuthenticated} onLogin={handleLogin} onLogout={handleLogout} />} />
           <Route path="/*" element={

@@ -19,19 +19,19 @@ const AdminProfile = () => {
         <form className="admin-profile-form" onSubmit={handleSubmit}>
           <div className="form-group">
             <label htmlFor="email">Email Address</label>
-            <input type="email" id="email" defaultValue="admin@example.com" required />
+            <input type="email" id="email" defaultValue="admin@example.com" required autoComplete="email" />
           </div>
           <div className="form-group">
             <label htmlFor="current-password">Current Password</label>
-            <input type="password" id="current-password" placeholder="Enter current password" required />
+            <input type="password" id="current-password" placeholder="Enter current password" required autoComplete="current-password" />
           </div>
           <div className="form-group">
             <label htmlFor="new-password">New Password</label>
-            <input type="password" id="new-password" placeholder="Enter new password" required />
+            <input type="password" id="new-password" placeholder="Enter new password" required autoComplete="new-password" />
           </div>
           <div className="form-group">
             <label htmlFor="confirm-password">Confirm New Password</label>
-            <input type="password" id="confirm-password" placeholder="Confirm new password" required />
+            <input type="password" id="confirm-password" placeholder="Confirm new password" required autoComplete="new-password" />
           </div>
           <button type="submit" className="btn-update">Update Profile</button>
         </form>
