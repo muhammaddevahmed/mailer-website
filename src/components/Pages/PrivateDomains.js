@@ -252,7 +252,7 @@ const PrivateDomains = () => {
 
             <div className="domain-input-container">
               <div className="domain-input-group">
-                <i className="fa-solid fa-link input-icon"></i>
+               
                 <input
                   type="text"
                   className="domain-input"

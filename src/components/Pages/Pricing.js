@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import "./PagesCss/Pricing.css";
 import "./PagesCss/f&q.css";
-import CheckoutModal from "./CheckoutModal"; // We'll create this component
+import CheckoutModal from "./CheckoutModal";
 
 const faqs = [
   {
@@ -38,27 +38,31 @@ const AccordionItem = (props) => {
   const { header, id, text } = faq;
 
   return (
-    <div className="rc-accordion-card">
-      <div className="rc-accordion-header">
+    <div className="pricing-accordion-card">
+      <div className="pricing-accordion-header">
         <div
-          className={`rc-accordion-toggle p-3 ${active === id ? "active" : ""}`}
+          className={`pricing-accordion-toggle ${
+            active === id ? "pricing-active" : ""
+          }`}
           onClick={() => handleToggle(id)}
         >
-          <h5 className="rc-accordion-title">{header}</h5>
-          <i className="fa fa-chevron-down rc-accordion-icon"></i>
+          <h5 className="pricing-accordion-title">{header}</h5>
+          <i className="fa fa-chevron-down pricing-accordion-icon"></i>
         </div>
       </div>
       <div
         ref={contentEl}
-        className={`rc-collapse ${active === id ? "show" : ""}`}
+        className={`pricing-collapse ${
+          active === id ? "pricing-show" : ""
+        }`}
         style={
           active === id
             ? { height: contentEl.current.scrollHeight }
             : { height: "0px" }
         }
       >
-        <div className="rc-accordion-body">
-          <p className="mb-0">{text}</p>
+        <div className="pricing-accordion-body">
+          <p className="pricing-mb-0">{text}</p>
         </div>
       </div>
     </div>
@@ -82,7 +86,6 @@ const Pricing = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Calculate savings for yearly plans
   const calculateSavings = (monthlyPrice, yearlyPrice) => {
     const monthlyTotal = monthlyPrice * 12;
     const savings = monthlyTotal - yearlyPrice;
@@ -117,7 +120,6 @@ const Pricing = () => {
   const handleCheckoutSuccess = () => {
     setShowCheckout(false);
     setSelectedPlan(null);
-    // Show success message or redirect
     alert("Payment successful! Thank you for your subscription.");
   };
 
@@ -218,7 +220,7 @@ const Pricing = () => {
   };
 
   return (
-    <div className="pricing-page">
+    <div className="pricing-container">
       {/* Checkout Modal */}
       {showCheckout && selectedPlan && (
         <CheckoutModal
@@ -231,10 +233,10 @@ const Pricing = () => {
 
       {/* Floating CTA */}
       {scrolled && (
-        <div className="floating-cta">
-          <div className="floating-content">
+        <div className="pricing-floating-cta">
+          <div className="pricing-floating-content">
             <span>Ready to get started?</span>
-            <button onClick={handleSignUpClick} className="floating-button">
+            <button onClick={handleSignUpClick} className="pricing-floating-btn">
               Start Free Plan <i className="fa-solid fa-arrow-right"></i>
             </button>
           </div>
@@ -242,22 +244,22 @@ const Pricing = () => {
       )}
 
       {/* Hero Section */}
-      <div className="pricing-hero">
-        <div className="hero-background">
-          <div className="hero-shape hero-shape-1"></div>
-          <div className="hero-shape hero-shape-2"></div>
-          <div className="hero-shape hero-shape-3"></div>
+      <section className="pricing-hero-section">
+        <div className="pricing-hero-bg">
+          <div className="pricing-hero-shape pricing-hero-shape-1"></div>
+          <div className="pricing-hero-shape pricing-hero-shape-2"></div>
+          <div className="pricing-hero-shape pricing-hero-shape-3"></div>
         </div>
-        <div className="hero-content">
-          <div className="hero-text">
-            <div className="hero-badge">
+        <div className="pricing-hero-content">
+          <div className="pricing-hero-text">
+            <div className="pricing-hero-badge">
               <i className="fa-solid fa-star"></i>
               Flexible Pricing Plans
             </div>
-            <h1 className="hero-title">
+            <h1 className="pricing-hero-title">
               Choose the Perfect Plan for Your Needs
             </h1>
-            <p className="hero-subtitle">
+            <p className="pricing-hero-subtitle">
               Select from our range of professional email solutions designed to
               protect your privacy and enhance your productivity. All plans
               include our award-winning security features.
@@ -265,30 +267,30 @@ const Pricing = () => {
           </div>
 
           {/* Pricing Toggle */}
-          <div className="pricing-toggle-container">
-            <div className="toggle-section">
-              <div className="toggle-header">
+          <div className="pricing-toggle-wrapper">
+            <div className="pricing-toggle-section">
+              <div className="pricing-toggle-header">
                 <h3>Choose Billing Period</h3>
                 <p>Switch between monthly and yearly billing</p>
               </div>
-              <div className="toggle-wrapper">
-                <span className={`toggle-label ${!isYearly ? "active" : ""}`}>
-                  <span className="toggle-label-main">Monthly</span>
-                  <span className="toggle-label-sub">Pay as you go</span>
+              <div className="pricing-toggle-content">
+                <span className={`pricing-toggle-label ${!isYearly ? "pricing-toggle-active" : ""}`}>
+                  <span className="pricing-toggle-label-main">Monthly</span>
+                  <span className="pricing-toggle-label-sub">Pay as you go</span>
                   {!isYearly && (
-                    <span className="toggle-badge">
+                    <span className="pricing-toggle-badge">
                       <i className="fa-solid fa-calendar"></i>
                       No Commitment
                     </span>
                   )}
                 </span>
 
-                <div className="toggle-switch-container">
-                  <div className="toggle-switch" onClick={handleSwitchToggle}>
-                    <div className="toggle-track"></div>
+                <div className="pricing-toggle-switch-container">
+                  <div className="pricing-toggle-switch" onClick={handleSwitchToggle}>
+                    <div className="pricing-toggle-track"></div>
                     <div
-                      className={`toggle-knob ${
-                        isYearly ? "yearly" : "monthly"
+                      className={`pricing-toggle-knob ${
+                        isYearly ? "pricing-toggle-yearly" : "pricing-toggle-monthly"
                       }`}
                     >
                       <i
@@ -298,210 +300,215 @@ const Pricing = () => {
                       ></i>
                     </div>
                   </div>
-                  <div className="toggle-indicator">
-                    <span className={!isYearly ? "active" : ""}>Monthly</span>
-                    <span className={isYearly ? "active" : ""}>Yearly</span>
+                  <div className="pricing-toggle-indicator">
+                    <span className={!isYearly ? "pricing-toggle-active" : ""}>Monthly</span>
+                    <span className={isYearly ? "pricing-toggle-active" : ""}>Yearly</span>
                   </div>
                 </div>
 
-                <span className={`toggle-label ${isYearly ? "active" : ""}`}>
-                  <span className="toggle-label-main">Yearly</span>
-                  <span className="toggle-label-sub">Best value</span>
+                <span className={`pricing-toggle-label ${isYearly ? "pricing-toggle-active" : ""}`}>
+                  <span className="pricing-toggle-label-main">Yearly</span>
+                  <span className="pricing-toggle-label-sub">Best value</span>
                   {isYearly && (
-                    <span className="toggle-badge savings-highlight">
+                    <span className="pricing-toggle-badge pricing-toggle-savings">
                       <i className="fa-solid fa-gift"></i>
                       Save up to 50%
                     </span>
                   )}
                 </span>
               </div>
+              
+            
             </div>
           </div>
         </div>
-      </div>
+      </section>
 
       {/* Plans Grid */}
-      <div className="plans-container">
-        <div className="plans-grid">
-          {plans.map((plan) => (
-            <div
-              key={plan.id}
-              className={`plan-card ${plan.id} ${
-                hoveredCard === plan.id ? "hovered" : ""
-              } ${activePlan === plan.id ? "active" : ""} ${
-                plan.popular ? "popular" : ""
-              }`}
-              onMouseEnter={() => setHoveredCard(plan.id)}
-              onMouseLeave={() => setHoveredCard(null)}
-            >
-              {/* Card Glow Effect */}
-              <div className="card-glow"></div>
-
-              {/* Plan Badge - Fixed Position */}
+      <section className="pricing-plans-section">
+        <div className="pricing-plans-container">
+          <div className="pricing-plans-grid">
+            {plans.map((plan) => (
               <div
-                className={`plan-badge ${
-                  plan.popular ? "popular-badge" : "value-badge"
+                key={plan.id}
+                className={`pricing-plan-card pricing-plan-${plan.id} ${
+                  hoveredCard === plan.id ? "pricing-plan-hovered" : ""
+                } ${activePlan === plan.id ? "pricing-plan-active" : ""} ${
+                  plan.popular ? "pricing-plan-popular" : ""
                 }`}
+                onMouseEnter={() => setHoveredCard(plan.id)}
+                onMouseLeave={() => setHoveredCard(null)}
               >
-                <div className="badge-ribbon">
-                  <i
-                    className={`fa-solid ${
-                      plan.popular
-                        ? "fa-fire"
-                        : plan.id === "premium"
-                        ? "fa-crown"
-                        : "fa-bolt"
-                    }`}
-                  ></i>
-                  <span className="badge-text">{plan.tag}</span>
-                </div>
-                <div className="badge-tagline">{plan.tagline}</div>
-              </div>
+                {/* Card Glow Effect */}
+                <div className="pricing-card-glow"></div>
 
-              {/* Plan Header */}
-              <div className="plan-header">
-                <div className="plan-icon-wrapper">
-                  <div className="plan-icon">
-                    <i className={`fa-solid ${plan.icon}`}></i>
+                {/* Plan Badge */}
+                <div
+                  className={`pricing-plan-badge ${
+                    plan.popular ? "pricing-popular-badge" : "pricing-value-badge"
+                  }`}
+                >
+                  <div className="pricing-badge-ribbon">
+                    <i
+                      className={`fa-solid ${
+                        plan.popular
+                          ? "fa-fire"
+                          : plan.id === "premium"
+                          ? "fa-crown"
+                          : "fa-bolt"
+                      }`}
+                    ></i>
+                    <span className="pricing-badge-text">{plan.tag}</span>
+                  </div>
+                  <div className="pricing-badge-tagline">{plan.tagline}</div>
+                </div>
+
+                {/* Plan Header */}
+                <div className="pricing-plan-header">
+                  <div className="pricing-plan-icon-wrapper">
+                    <div className="pricing-plan-icon">
+                      <i className={`fa-solid ${plan.icon}`}></i>
+                    </div>
+                  </div>
+                  <div className="pricing-plan-title">
+                    <h3 className="pricing-plan-name">{plan.name}</h3>
+                    <p className="pricing-plan-description">{plan.description}</p>
                   </div>
                 </div>
-                <div className="plan-title-section">
-                  <h3 className="plan-name">{plan.name}</h3>
-                  <p className="plan-description">{plan.description}</p>
-                </div>
-              </div>
 
-              {/* Plan Pricing */}
-              <div className="plan-pricing">
-                <div className="price-display">
-                  <div className="price-main">
-                    <span className="price-currency">$</span>
-                    <span className="price-amount">
-                      {isYearly ? plan.yearlyPrice : plan.price}
-                    </span>
-                    <span className="price-period">
-                      /{isYearly ? "year" : "month"}
-                    </span>
+                {/* Plan Pricing */}
+                <div className="pricing-plan-pricing">
+                  <div className="pricing-price-display">
+                    <div className="pricing-price-main">
+                      <span className="pricing-price-currency">$</span>
+                      <span className="pricing-price-amount">
+                        {isYearly ? plan.yearlyPrice : plan.price}
+                      </span>
+                      <span className="pricing-price-period">
+                        /{isYearly ? "year" : "month"}
+                      </span>
+                    </div>
+                    {plan.id !== "basic" && isYearly && plan.savings && (
+                      <div className="pricing-yearly-savings">
+                        <i className="fa-solid fa-piggy-bank"></i>
+                        <span className="pricing-savings-text">
+                          Save ${plan.savings.amount} ({plan.savings.percentage}%)
+                        </span>
+                      </div>
+                    )}
                   </div>
-                  {plan.id !== "basic" && isYearly && plan.savings && (
-                    <div className="yearly-savings">
-                      <span className="savings-text">
-                        Save ${plan.savings.amount} ({plan.savings.percentage}%)
+
+                  {plan.id === "basic" && (
+                    <div className="pricing-free-badge">
+                      <i className="fa-solid fa-infinity"></i>
+                      <span>Free Forever</span>
+                    </div>
+                  )}
+
+                  {plan.id !== "basic" && (
+                    <div className="pricing-billing-info">
+                      <span className="pricing-monthly-equivalent">
+                        ${plan.price}/month
+                      </span>
+                      <span className="pricing-billing-period">
+                        {isYearly ? "Billed annually" : "Billed monthly"}
                       </span>
                     </div>
                   )}
                 </div>
 
-                {plan.id === "basic" && (
-                  <div className="free-forever-badge">
-                    <i className="fa-solid fa-infinity"></i>
-                    <span>Free Forever</span>
-                  </div>
-                )}
+                {/* Plan Features */}
+                <div className="pricing-plan-features">
+                  <h4 className="pricing-features-title">
+                    <i className="fa-solid fa-list-check"></i>
+                    What's Included
+                  </h4>
+                  <ul className="pricing-features-list">
+                    {plan.features.map((feature, index) => (
+                      <li key={index} className="pricing-feature-item">
+                        <span className="pricing-feature-icon">
+                          <i
+                            className={`fa-solid ${
+                              feature.available
+                                ? "fa-check-circle"
+                                : "fa-times-circle"
+                            }`}
+                          ></i>
+                        </span>
+                        <span className="pricing-feature-text">{feature.text}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
 
-                {plan.id !== "basic" && (
-                  <div className="billing-info">
-                    <span className="monthly-equivalent">
-                      ${plan.price}/month
-                    </span>
-                    <span className="billing-period">
-                      {isYearly ? "Billed annually" : "Billed monthly"}
-                    </span>
-                  </div>
-                )}
+                {/* Plan Footer */}
+                <div className="pricing-plan-footer">
+                  <button
+                    className={`pricing-plan-btn pricing-plan-${plan.id}-btn`}
+                    onClick={plan.onSelect}
+                    style={{ background: plan.buttonColor }}
+                  >
+                    <span className="pricing-btn-text">{plan.buttonText}</span>
+                    <i className="fa-solid fa-arrow-right pricing-btn-arrow"></i>
+                  </button>
+
+                  {plan.id !== "basic" && (
+                    <div className="pricing-auto-renewal">
+                      <i className="fa-solid fa-sync"></i>
+                      <span>Auto-renewal • Cancel anytime</span>
+                    </div>
+                  )}
+                </div>
               </div>
-
-              {/* Plan Features */}
-              <div className="plan-features">
-                <h4 className="features-title">
-                  <i className="fa-solid fa-list-check"></i>
-                  What's Included
-                </h4>
-                <ul className="features-list">
-                  {plan.features.map((feature, index) => (
-                    <li key={index} className="feature-item">
-                      <span className="feature-icon">
-                        <i
-                          className={`fa-solid ${
-                            feature.available
-                              ? "fa-check-circle"
-                              : "fa-times-circle"
-                          }`}
-                        ></i>
-                      </span>
-                      <span className="feature-text">{feature.text}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              {/* Plan Footer */}
-              <div className="plan-footer">
-                <button
-                  className={`plan-button ${plan.id}-button`}
-                  onClick={plan.onSelect}
-                  style={{ background: plan.buttonColor }}
-                >
-                  <span className="button-text">{plan.buttonText}</span>
-                  <i className="fa-solid fa-arrow-right button-arrow"></i>
-                </button>
-
-                {plan.id !== "basic" && (
-                  <div className="auto-renewal">
-                    <i className="fa-solid fa-sync"></i>
-                    <span>Auto-renewal • Cancel anytime</span>
-                  </div>
-                )}
-              </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
-      </div>
+      </section>
 
       {/* Comparison Table */}
-      <div className="comparison-section" id="plan-comparison">
-        <div className="section-header">
-          <div className="section-badge">
+      <section className="pricing-comparison-section" id="plan-comparison">
+        <div className="pricing-section-header">
+          <div className="pricing-section-badge">
             <i className="fa-solid fa-table"></i>
             Detailed Comparison
           </div>
           <h2>Plan Feature Comparison</h2>
-          <p className="section-subtitle">
+          <p className="pricing-section-subtitle">
             Compare all features across our plans at a glance
           </p>
         </div>
-        <div className="comparison-container">
-          <div className="comparison-table">
+        <div className="pricing-comparison-container">
+          <div className="pricing-comparison-table">
             <table>
               <thead>
                 <tr>
-                  <th className="feature-column">Features</th>
-                  <th className="plan-column free">
-                    <div className="plan-header-cell">
-                      <div className="plan-icon-small">
+                  <th className="pricing-feature-col">Features</th>
+                  <th className="pricing-plan-col pricing-plan-free">
+                    <div className="pricing-plan-header-cell">
+                      <div className="pricing-plan-icon-sm">
                         <i className="fa-solid fa-user"></i>
                       </div>
-                      <span className="plan-name-cell">Free</span>
-                      <span className="plan-price-cell">$0/month</span>
+                      <span className="pricing-plan-name-cell">Free</span>
+                      <span className="pricing-plan-price-cell">$0/month</span>
                     </div>
                   </th>
-                  <th className="plan-column standard">
-                    <div className="plan-header-cell">
-                      <div className="plan-icon-small">
+                  <th className="pricing-plan-col pricing-plan-standard">
+                    <div className="pricing-plan-header-cell">
+                      <div className="pricing-plan-icon-sm">
                         <i className="fa-solid fa-user-check"></i>
                       </div>
-                      <span className="plan-name-cell">Standard</span>
-                      <span className="plan-price-cell">$10/month</span>
-                      <span className="plan-popular">Most Popular</span>
+                      <span className="pricing-plan-name-cell">Standard</span>
+                      <span className="pricing-plan-price-cell">$10/month</span>
+                      <span className="pricing-plan-popular-tag">Most Popular</span>
                     </div>
                   </th>
-                  <th className="plan-column premium">
-                    <div className="plan-header-cell">
-                      <div className="plan-icon-small">
+                  <th className="pricing-plan-col pricing-plan-premium">
+                    <div className="pricing-plan-header-cell">
+                      <div className="pricing-plan-icon-sm">
                         <i className="fa-solid fa-crown"></i>
                       </div>
-                      <span className="plan-name-cell">Premium</span>
-                      <span className="plan-price-cell">$20/month</span>
+                      <span className="pricing-plan-name-cell">Premium</span>
+                      <span className="pricing-plan-price-cell">$20/month</span>
                     </div>
                   </th>
                 </tr>
@@ -509,90 +516,90 @@ const Pricing = () => {
               <tbody>
                 <tr>
                   <td>
-                    <span className="feature-name">Email Storage Duration</span>
-                    <span className="feature-desc">
+                    <span className="pricing-feature-name">Email Storage Duration</span>
+                    <span className="pricing-feature-desc">
                       How long emails are stored
                     </span>
                   </td>
-                  <td className="free">
-                    <span className="feature-value">10 Minutes</span>
-                    <i className="feature-icon fa-solid fa-clock"></i>
+                  <td className="pricing-plan-free">
+                    <span className="pricing-feature-value">10 Minutes</span>
+                    <i className="pricing-feature-icon fa-solid fa-clock"></i>
                   </td>
-                  <td className="standard">
-                    <span className="feature-value">12 Hours</span>
-                    <i className="feature-icon fa-solid fa-clock"></i>
+                  <td className="pricing-plan-standard">
+                    <span className="pricing-feature-value">12 Hours</span>
+                    <i className="pricing-feature-icon fa-solid fa-clock"></i>
                   </td>
-                  <td className="premium">
-                    <span className="feature-value highlight">24 Hours</span>
-                    <i className="feature-icon fa-solid fa-clock"></i>
+                  <td className="pricing-plan-premium">
+                    <span className="pricing-feature-value pricing-feature-highlight">24 Hours</span>
+                    <i className="pricing-feature-icon fa-solid fa-clock"></i>
                   </td>
                 </tr>
                 <tr>
                   <td>
-                    <span className="feature-name">Inbox Storage</span>
-                    <span className="feature-desc">
+                    <span className="pricing-feature-name">Inbox Storage</span>
+                    <span className="pricing-feature-desc">
                       Maximum email storage capacity
                     </span>
                   </td>
-                  <td className="free">
-                    <span className="feature-value">None</span>
+                  <td className="pricing-plan-free">
+                    <span className="pricing-feature-value">None</span>
                   </td>
-                  <td className="standard">
-                    <span className="feature-value">20 Emails</span>
+                  <td className="pricing-plan-standard">
+                    <span className="pricing-feature-value">20 Emails</span>
                   </td>
-                  <td className="premium">
-                    <span className="feature-value highlight">100+ Emails</span>
+                  <td className="pricing-plan-premium">
+                    <span className="pricing-feature-value pricing-feature-highlight">100+ Emails</span>
                   </td>
                 </tr>
                 <tr>
                   <td>
-                    <span className="feature-name">Custom Email Address</span>
-                    <span className="feature-desc">
+                    <span className="pricing-feature-name">Custom Email Address</span>
+                    <span className="pricing-feature-desc">
                       Personalized email addresses
                     </span>
                   </td>
-                  <td className="free">
-                    <i className="fa-solid fa-times unavailable"></i>
+                  <td className="pricing-plan-free">
+                    <i className="fa-solid fa-times pricing-feature-unavailable"></i>
                   </td>
-                  <td className="standard">
-                    <i className="fa-solid fa-check available"></i>
+                  <td className="pricing-plan-standard">
+                    <i className="fa-solid fa-check pricing-feature-available"></i>
                   </td>
-                  <td className="premium">
-                    <i className="fa-solid fa-check available"></i>
+                  <td className="pricing-plan-premium">
+                    <i className="fa-solid fa-check pricing-feature-available"></i>
                   </td>
                 </tr>
                 <tr>
                   <td>
-                    <span className="feature-name">Attachment Support</span>
-                    <span className="feature-desc">
+                    <span className="pricing-feature-name">Attachment Support</span>
+                    <span className="pricing-feature-desc">
                       Maximum file attachment size
                     </span>
                   </td>
-                  <td className="free">
-                    <i className="fa-solid fa-times unavailable"></i>
+                  <td className="pricing-plan-free">
+                    <i className="fa-solid fa-times pricing-feature-unavailable"></i>
                   </td>
-                  <td className="standard">
-                    <span className="feature-value">Up to 1MB</span>
+                  <td className="pricing-plan-standard">
+                    <span className="pricing-feature-value">Up to 1MB</span>
                   </td>
-                  <td className="premium">
-                    <span className="feature-value highlight">Up to 10MB</span>
+                  <td className="pricing-plan-premium">
+                    <span className="pricing-feature-value pricing-feature-highlight">Up to 10MB</span>
                   </td>
                 </tr>
                 <tr>
                   <td>
-                    <span className="feature-name">Customer Support</span>
-                    <span className="feature-desc">
+                    <span className="pricing-feature-name">Customer Support</span>
+                    <span className="pricing-feature-desc">
                       Support availability and type
                     </span>
                   </td>
-                  <td className="free">
-                    <span className="feature-value">None</span>
+                  <td className="pricing-plan-free">
+                    <span className="pricing-feature-value">None</span>
                   </td>
-                  <td className="standard">
-                    <span className="feature-value">Priority Email</span>
+                  <td className="pricing-plan-standard">
+                    <span className="pricing-feature-value">Priority Email</span>
                   </td>
-                  <td className="premium">
-                    <span className="feature-value highlight">
+                  <td className="pricing-plan-premium">
+                    <span className="pricing-feature-value pricing-feature-highlight">
                       Priority 24/7
                     </span>
                   </td>
@@ -601,24 +608,23 @@ const Pricing = () => {
             </table>
           </div>
         </div>
-      </div>
+      </section>
 
       {/* FAQ Section */}
-      <div className="pricing-faq-section">
-        <div className="faq-container">
-          <div className="faq-header">
-            <div className="faq-badge">
+      <section className="pricing-faq-section">
+        <div className="pricing-faq-container">
+          <div className="pricing-faq-header">
+            <div className="pricing-faq-badge">
               <i className="fa-solid fa-circle-question"></i>
               Frequently Asked Questions
             </div>
             <h2>Need More Information?</h2>
-            <p className="faq-subtitle" style={{color:"whitesmoke"}}>
-              Get answers to common questions about our pricing and
-              subscriptions
+            <p className="pricing-faq-subtitle">
+              Get answers to common questions about our pricing and subscriptions
             </p>
           </div>
 
-          <div className="faq-content">
+          <div className="pricing-faq-content">
             {faqs.map((faq, index) => (
               <AccordionItem
                 key={index}
@@ -629,12 +635,12 @@ const Pricing = () => {
             ))}
           </div>
 
-          <div className="faq-footer">
-            <div className="faq-contact">
+          <div className="pricing-faq-footer">
+            <div className="pricing-faq-contact">
               <i className="fa-solid fa-comments"></i>
               <div>
                 <p>Still have questions?</p>
-                <Link to="/contact" className="contact-link">
+                <Link to="/contact" className="pricing-contact-link">
                   Contact our support team
                   <i className="fa-solid fa-arrow-right"></i>
                 </Link>
@@ -642,17 +648,17 @@ const Pricing = () => {
             </div>
           </div>
         </div>
-      </div>
+      </section>
 
       {/* CTA Section */}
-      <div className="pricing-cta">
-        <div className="cta-background">
-          <div className="cta-shape cta-shape-1"></div>
-          <div className="cta-shape cta-shape-2"></div>
-          <div className="cta-shape cta-shape-3"></div>
+      <section className="pricing-cta-section">
+        <div className="pricing-cta-bg">
+          <div className="pricing-cta-shape pricing-cta-shape-1"></div>
+          <div className="pricing-cta-shape pricing-cta-shape-2"></div>
+          <div className="pricing-cta-shape pricing-cta-shape-3"></div>
         </div>
-        <div className="cta-content">
-          <div className="cta-badge">
+        <div className="pricing-cta-content">
+          <div className="pricing-cta-badge">
             <i className="fa-solid fa-rocket"></i>
             Ready to Get Started?
           </div>
@@ -662,20 +668,36 @@ const Pricing = () => {
             temporary email needs. Experience the difference with our
             award-winning service.
           </p>
-          <div className="cta-buttons">
-            <button className="cta-button primary" onClick={handleSignUpClick}>
+          <div className="pricing-cta-buttons">
+            <button className="pricing-cta-btn pricing-cta-btn-primary" onClick={handleSignUpClick}>
               <i className="fa-solid fa-play"></i>
               Start Free Plan
             </button>
             <Link to="/contact">
-              <button className="cta-button secondary">
+              <button className="pricing-cta-btn pricing-cta-btn-secondary">
                 <i className="fa-solid fa-comments"></i>
                 Contact us
               </button>
             </Link>
           </div>
+          <div className="pricing-cta-footer">
+            <div className="pricing-cta-features">
+              <span>
+                <i className="fa-solid fa-shield-alt"></i>
+                No credit card required
+              </span>
+              <span>
+                <i className="fa-solid fa-clock"></i>
+                Setup in 2 minutes
+              </span>
+              <span>
+                <i className="fa-solid fa-user-check"></i>
+                24/7 Customer Support
+              </span>
+            </div>
+          </div>
         </div>
-      </div>
+      </section>
     </div>
   );
 };

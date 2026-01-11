@@ -24,7 +24,7 @@
   text-align: center;
   display: flex;
   flex-direction: column;
-  align-items: center;;
+  align-items: center;
 }
 
 .main-title {
@@ -43,19 +43,13 @@
   line-height: 1.4;
 }
 
-/* Content Layout */
+/* Content Layout - UPDATED: Changed to single column */
 .domains-content-wrapper {
-  display: grid;
-  grid-template-columns: 1fr;
+  display: flex;
+  flex-direction: column;
   gap: clamp(1.5rem, 4vw, 2rem);
-  max-width: min(95%, 1400px);
+  max-width: min(95%, 1200px);
   margin: 0 auto;
-}
-
-@media (min-width: 1024px) {
-  .domains-content-wrapper {
-    grid-template-columns: 2fr 1fr;
-  }
 }
 
 /* Domain Management Section */
@@ -433,20 +427,13 @@
   line-height: 1.4;
 }
 
-/* FAQ Section */
+/* FAQ Section - UPDATED: No longer sticky on desktop, full width below */
 .faq-section {
   background: white;
   border-radius: clamp(16px, 4vw, 20px);
   padding: clamp(1.25rem, 4vw, 2rem);
   box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
   height: fit-content;
-}
-
-@media (min-width: 1024px) {
-  .faq-section {
-    position: sticky;
-    top: clamp(16px, 4vw, 24px);
-  }
 }
 
 .faq-header {
@@ -521,37 +508,13 @@
 }
 
 /* Large Devices (Desktops, 992px - 1199.98px) */
-@media (min-width: 992px) and (max-width: 1199.98px) {
+@media (min-width: 992px) {
   .domains-content-wrapper {
-    grid-template-columns: 3fr 2fr;
-    gap: 2rem;
-  }
-}
-
-/* Extra Large Devices (Large Desktops, 1200px and up) */
-@media (min-width: 1200px) {
-  .domains-content-wrapper {
-    grid-template-columns: 2fr 1fr;
-    gap: 2.5rem;
+    max-width: min(95%, 1000px);
   }
   
-  .domains-grid {
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  }
-}
-
-/* Ultra-Wide Screens (1800px and up) */
-@media (min-width: 1800px) {
-  .domains-content-wrapper {
-    max-width: 1600px;
-  }
-  
-  .main-title {
-    font-size: 3.5rem;
-  }
-  
-  .domains-grid {
-    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  .faq-section {
+    width: 100%;
   }
 }
 
@@ -600,7 +563,6 @@
     transform: none;
   }
 }
-
 
 /* Domain Status Badges */
 .domain-status-container {
