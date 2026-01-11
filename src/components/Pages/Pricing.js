@@ -99,7 +99,7 @@ const Pricing = () => {
   const premiumSavings = calculateSavings(20, 120);
 
   const handleSignUpClick = () => {
-    navigate("/sign");
+    navigate("/");
   };
 
   const handleSwitchToggle = () => {
