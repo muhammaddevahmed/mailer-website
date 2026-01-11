@@ -6,11 +6,13 @@ import ManagePackages from './pages/ManagePackages';
 import UsersManagement from './pages/UsersManagement';
 import UserEmailAnalytics from './pages/UserEmailAnalytics';
 import ContactSubmissions from './pages/ContactSubmissions';
+import AdminProfile from './pages/AdminProfile';
 
 
 const ProtectedRoute = ({ isAuthenticated, children }) => {
   if (!isAuthenticated) {
     return <Navigate to="/sign" replace />;
+
   }
   return children;
 };
@@ -29,6 +31,7 @@ const AdminRouter = ({ isAuthenticated, onLogout }) => {
                 <Route path="users" element={<UsersManagement />} />
                 <Route path="analytics" element={<UserEmailAnalytics />} />
                 <Route path="contact" element={<ContactSubmissions />} />
+                <Route path="profile" element={<AdminProfile />} />
                 
                 <Route index element={<Navigate to="dashboard" />} />
               </Routes>
